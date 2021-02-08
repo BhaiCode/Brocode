@@ -2,7 +2,7 @@ import pymysql
 import credential
 
 
-def signup(name,username,password,email,phone_no):
+def signup(name,username,password,email,phone_no,gender):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -12,9 +12,9 @@ def signup(name,username,password,email,phone_no):
     )
     try:
         with conn.cursor() as curr:
-            sql = "insert into usermaster (name,username,password,email,phone_no) value (%s,%s,%s,%s,%s)"
+            sql = "insert into usermaster (name,username,password,email,phone_no,gender) value (%s,%s,%s,%s,%s,%s)"
             phone_no=int(phone_no)
-            curr.execute(sql,(name,username,password,email,phone_no))
+            curr.execute(sql,(name,username,password,email,phone_no,gender))
             conn.commit()
     except Exception as e:
         print(e)        
