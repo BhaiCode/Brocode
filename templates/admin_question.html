@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload Question</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  
+    <script src = "static\js\admin_question.js"></script>
+</head>
+<body>
+    <form enctype="multipart/form-data" onsubmit="return false" id="form1">
+        <input id="file1" type="file" name="file1">
+        <span id="file1_ok" style="display:none"></span>
+        <input id="file2" type="file" name="file2">
+        <span id="file2_ok" style="display:none"></span>
+        <input id="file3" type="file" name="file3">
+        <span id="file3_ok" style="display:none"></span>
+        <input id="name" type="name" name="question_name" placeholder="Question Name">
+        <span id="name_ok" style="display:none"></span>
+        <input id="submit" type="submit" value="Upload">
+    </form> 
+    
+</body> 
+</html>
