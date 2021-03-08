@@ -12,6 +12,7 @@ app.secret_key=credential.secret_key
 
 @app.route('/')
 def home():
+<<<<<<< HEAD
     # if 'username' in session:
     #     username=session['username']
     #     return render_template('index.html')  
@@ -19,6 +20,13 @@ def home():
     items = api.api_get_all()
     # print(items)
     return render_template('index.html',items=items)
+=======
+    if 'username' in session:
+        username=session['username']
+        return render_template('index.html')  
+    # return redirect('/login')
+    return render_template('index.html') 
+>>>>>>> 5cd0e0e14b96a5bedd1438228c17898f4643b21a
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
