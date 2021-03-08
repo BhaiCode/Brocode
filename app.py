@@ -9,7 +9,8 @@ def home():
     if 'username' in session:
         username=session['username']
         return render_template('index.html')  
-    return redirect('/login')
+    # return redirect('/login')
+    return render_template('index.html') 
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():

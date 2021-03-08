@@ -5,6 +5,7 @@
     <title>Index</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -12,6 +13,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        
 </head>
 <style>
     .input-group-text {
@@ -33,14 +35,16 @@
         <div class="col-md-2 ">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a href="login.html"><button type="button" class="btn btn-outline-danger">Log In</button></a>
-                    <a href="signup.html"><button type="button" class="btn btn-outline-danger">Sign Up</button></a>
+                    <a href={{url_for('login')}}><button type="button" class="btn btn-outline-danger">Log In</button></a>
+                    <a href={{url_for('sign_up')}}><button type="button" class="btn btn-outline-danger">Sign Up</button></a>
                 </li>
             </ul>
 
 
         </div>
     </nav>
+    
+
 
     <!-- hello
     {{ session['username'] }} -->
@@ -57,6 +61,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
 

@@ -1,43 +1,13 @@
-
-		body,html {
-			margin: 0;
+		body,
+		html {
+			margin: 1%;
 			padding: 0;
 			height: 100%;
 			background: rgb(90, 95, 110) !important;
 		}
-		input:required {
-			background-color: #FFFFFF;
-		  }
-		  
-		  
-		  .brand_logo:hover {
-			-ms-transform: scale(1.2); /* IE 9 */
-			-webkit-transform: scale(1.2); /* Safari 3-8 */
-			transform: scale(1.2); 
-		  }
-		  .zoom:hover {
-			-ms-transform: scale(1.05); /* IE 9 */
-			-webkit-transform: scale(1.05); /* Safari 3-8 */
-			transform: scale(1.05); 
-		  }
-		  /* [1] The container */
-.img-hover-zoom {
-	height: 300px; /* [1.1] Set it as per your need */
-	overflow: hidden; /* [1.2] Hide the overflowing of child elements */
-  }
-  
-  /* [2] Transition property for smooth transformation of images */
-  .img-hover-zoom img {
-	transition: transform .5s ease;
-  }
-  
-  /* [3] Finally, transforming the image when container gets hovered */
-  .img-hover-zoom:hover img {
-	transform: scale(1.5);
-  }
 		.user_card {
-			height: 400px;
-			width: 385px;
+			height: 500px;
+			width: 370px;
 			margin-top: auto;
 			margin-bottom: auto;
 			background: rgb(14, 30, 64);
@@ -52,6 +22,16 @@
 			border-radius: 5px;
 
 		}
+        .brand_logo:hover {
+			-ms-transform: scale(1.2); /* IE 9 */
+			-webkit-transform: scale(1.2); /* Safari 3-8 */
+			transform: scale(1.2); 
+		  }
+		  .zoom:hover {
+			-ms-transform: scale(1.05); /* IE 9 */
+			-webkit-transform: scale(1.05); /* Safari 3-8 */
+			transform: scale(1.05); 
+		  }
 		.brand_logo_container {
 			position: absolute;
 			height: 170px;
@@ -94,7 +74,6 @@
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
-		
 		.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
 			background-color: #c0392b !important;
 		}
