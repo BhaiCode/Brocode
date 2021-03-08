@@ -98,3 +98,38 @@ def check_ques_name(data):
             return True
     except Exception as e:
         print(e)         
+
+def api_get_all():
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    )   
+    try:
+        with conn.cursor() as curr:
+            sql = "select ques_location,ques_name from ques_master"
+            curr.execute(sql)
+            output = curr.fetchall()
+            output = dict(output)
+            return output
+    except Exception as e:
+        print(e)      
+
+def api_get_id():
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    )   
+    try:
+        with conn.cursor() as curr:
+            sql = "select ques_id from ques_master"
+            curr.execute(sql)
+            output = curr.fetchall()
+            return output
+    except Exception as e:
+        print(e)  

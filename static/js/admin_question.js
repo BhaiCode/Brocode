@@ -32,7 +32,8 @@ $(document).ready(function () {
     });
     $('#file1').on('change', function () {
         var fileInput = $('#file1').val();
-        var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+        // var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+        var allowedExtensions = /(\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
         if (!allowedExtensions.exec(fileInput)) {
             $('#file1_ok').text("Wrong Extension");
             $('#file1_ok').show();

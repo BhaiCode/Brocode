@@ -10,18 +10,15 @@ import generator as gen
 app = Flask(__name__)
 app.secret_key=credential.secret_key
 
-# for questions 
-# UPLOAD_FOLDER = credential.path
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
 @app.route('/')
 def home():
     # if 'username' in session:
     #     username=session['username']
     #     return render_template('index.html')  
     # return redirect('/login')
-    return render_template('index.html')
+    items = api.api_get_all()
+    # print(items)
+    return render_template('index.html',items=items)
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
