@@ -39,8 +39,6 @@
                     <a href={{url_for('sign_up')}}><button type="button" class="btn btn-outline-danger">Sign Up</button></a>
                 </li>
             </ul>
-
-
         </div>
     </nav>
 
@@ -71,6 +69,10 @@
         </a>
       </div>
      -->
+    {% for keys in items %}
+        <a class='ques_link' href='{{keys}}'>{{ items[keys] }}</a>
+    {% endfor %}
+    
 
 
     <!-- hello
