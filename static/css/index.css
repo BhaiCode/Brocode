@@ -54,23 +54,11 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
-/* GLOBAL STYLES
--------------------------------------------------- */
-/* Padding below the footer and lighter body text */
 
- /* body {
-	color: #5a5a5a;
-	background: #c0392b !important;
-	font-family: 'Lato', sans-serif;
-}  */
-/* typewriter animation */
-/* html{
-            min-height: 100%;
-            overflow: hidden;
-          } */
 body{
-height:calc(100vh-8em);
-padding:1em;
+	margin: 0;
+	padding: 0;
+	height: 100%;
 color:rgba(255,255,255,0.75);
 font-family: 'Anonymous Pro',monospace;
 background-color: rgb(25,25,25);
@@ -104,8 +92,8 @@ border-right: 2px solid rgba(255,255,255,0.75) ;
 }
 .anim-typewriter{
 animation:typewriter 1s steps(8) 1s 1 normal both,
-blinkTextCursor 500ms steps(8) infinite normal;
-animation-delay: 0s;
+blinkTextCursor 600ms steps(8) infinite normal;
+animation-delay: 2s;
 /* animation-direction: alternate; */
 /* animation-iteration-count: 1; */
 /* animation-timing-function: ease; */
