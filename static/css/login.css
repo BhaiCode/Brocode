@@ -3,7 +3,7 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: rgb(90, 95, 110) !important;
+			background: rgb(25,25,25) !important;
 		}
 		input:required {
 			background-color: #FFFFFF;
