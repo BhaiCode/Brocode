@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,request,session,flash,json,url_for
+from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g
 import db as api
 import credential
 from werkzeug.utils import secure_filename
@@ -8,28 +8,26 @@ import random
 import generator as gen
 
 app = Flask(__name__)
-app.secret_key=credential.secret_key
+
+
+
+app.secret_key=os.urandom(24)
 
 @app.route('/')
 def home():
-    # if 'username' in session:
-    #     username=session['username']
-    #     return render_template('index.html')  
-    # return redirect('/login')
+    if 'username' in session:
+        username=session['username']
+        return render_template('index.html',username=username)  
+    return redirect('/login')
     items = api.api_get_all()
-    # print(items)
+    print(items)
     return render_template('index.html',items=items)
-    # if 'username' in session:
-    #     username=session['username']
-    #     return render_template('index.html')  
-    # # return redirect('/login')
-    # return render_template('index.html') 
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
     if(request.method=='POST'):
         form_details=request.form
-        # print(form_details)
+        print(form_details)
         session['username']=request.form['username']
         api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
         flash('Hey, you signed in')
@@ -41,23 +39,32 @@ def login():
     if(request.method=='POST'):
         form_details=request.form
         session['username']=request.form['username']
+        print(request.form['username'])
         data=api.login(form_details['username'],form_details['password'])
         if data == "correctPassword":
-            flash('Successfully logged in')
-            return redirect('/')
+            # flash('Successfully logged in')
+            print('Successfully logged in')
+            return render_template('index.html',username=request.form['username'])
         if data == "wrongPassword":
-            flash('wrongPassword')
+            # flash('wrongPassword')
+            print('wrongPassword')
             return render_template('login.html')
         if data == "UsernameDosenotExit":
-            flash('UsernameDosenotExit')
+            # flash('UsernameDosenotExit')
+            print('UsernameDosenotExit')
             return render_template('login.html')      
     return render_template('login.html')            
 
-@app.route('/logout', methods=['POST'])
+
+@app.route('/logout')
 def logout():
-    session.pop('username',None)
-    flash('You logged out')
-    return json.dumps({'status':'logout'})
+    # session.pop('user_id')
+    return redirect('/login')
+    # flash('You logged out')
+    # return json.dumps({'status':'logout'})
+
+
+
 
 
 
@@ -107,6 +114,16 @@ def new_question():
     return render_template('admin_question.html')
 
 
+
+
+
+
+@app.before_request
+def before_request():
+    g.user=None
+
+    if'user' in session:
+        g.user=session['user']
 
 if __name__ == '__main__':
     app.run(debug=True)
