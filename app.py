@@ -74,6 +74,7 @@ def api_question():
         file1 = request.files['file1']
         file2 = request.files['file2']
         file3 = request.files['file3']    
+        file4 = request.files['file4']   
         form_details = request.form
         l1=""
         l2=""
@@ -89,11 +90,14 @@ def api_question():
         app.config['UPLOAD_FOLDER']=credential.path3
         filename = secure_filename(file3.filename)
         file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
-        l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename)  
+        l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+        filename = secure_filename(file4.filename)
+        file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
+        l4 = os.path.join(app.config['UPLOAD_FOLDER'], filename)   
         q_key=gen.key()
         while api.check_qkey(q_key)==False:
             q_key=gen.key()
-        api.new_question(q_key,l1,form_details['question_name'],l2,l3)
+        api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4)
         return json.dumps({'status':'0'})
     except:
         return json.dumps({'status':'1'})   

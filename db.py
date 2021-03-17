@@ -43,7 +43,7 @@ def login(username,password):
     except Exception as e:
         print(e)       
 
-def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol):
+def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -53,9 +53,9 @@ def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol):
     )
     try:
         with conn.cursor() as curr:
-            sql = "insert into ques_master (ques_id,ques_location,ques_name,ques_test_case_file,ques_sol) values (%s,%s,%s,%s,%s)"
+            sql = "insert into ques_master (ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output) values (%s,%s,%s,%s,%s,%s)"
             # print(ques_id,ques_location,ques_name,ques_test_case_file)
-            curr.execute(sql,(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol))
+            curr.execute(sql,(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output))
             # print(ques_id,ques_location,ques_name,ques_test_case_file)
             conn.commit()
     except Exception as e:
@@ -133,3 +133,21 @@ def api_get_id():
             return output
     except Exception as e:
         print(e)  
+
+def get_quest(ques_id):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    ) 
+    try:
+        with conn.cursor() as curr:
+            sql = "select ques_location from ques_master where ques_id=(%s)"
+            curr.execute(sql,(ques_id))
+            output = curr.fetchone()
+            return (output[0])
+    except Exception as e:
+        print(e) 
+             

@@ -3,7 +3,6 @@ $(document).ready(function () {
         $('#form1').submit(function () {
             var form = $('#form1')[0];
             var data = new FormData(form);
-            console.log(typeof(data),"hahahhhahahhah");
             $.ajax({
                 url: '/api_question',
                 type: 'POST',
@@ -69,7 +68,18 @@ $(document).ready(function () {
             $('#file3_ok').hide();
         }
     });
-    
+    $('#file4').on('change', function () {
+        var fileInput = $('#file4').val(); 
+        var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+        if (!allowedExtensions.exec(fileInput)) {
+            $('#file4_ok').text("Wrong Extension");
+            $('#file4_ok').show();
+            $('#file4').val("");
+        }
+        else {
+            $('#file4_ok').hide();
+        }
+    });
     
     $("#name").on('input', function () {
         var name_send = $("#name").val();

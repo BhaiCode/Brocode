@@ -2,18 +2,30 @@ import os
 import sys,subprocess
 import credential
 import contextlib
+import filecmp 
 
 # for only now i take submission id as a location after complition it must be taken from database
 # question id as solution id
+# alter queston table
 def check(ques_id,submission_id,user_id):
     if submission_id.endswith('.py'):
         sub_name = get_name(submission_id)
-        name = str(sub_name)+str(user_id)
+        name = str(sub_name)+str('yes') #yes used for name of question
         out = get_file(name)
         st = []
         st = get_command('python3',submission_id,out)
         with open(out,'w+') as f:
-            s = subprocess.run(st,stdout=f,stderr = f,text=True)
+            with open(user_id,'r') as r:
+                s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
+        tag = 's'
+        print(result(str(out),str(ques_id),tag))
+
+def result(sub_out,act_out,tag):
+    if tag == 's':    
+        r = filecmp.cmp(sub_out,act_out,shallow=False)
+        return r
+    elif tag == 'd':
+        print('krna hai')
 
 def get_command(compiler,file1,opfile):
     st = []
@@ -49,5 +61,5 @@ def del_file(name):
         print(error)    
 
 # print(os.path.abspath('static/submission/test.py'))
-check('haha','static/submission/test.py','yes')
+check('static/static_output/test.txt','static/submission/test.py','static/test_case/test.txt')
 # get_file('staticsubmissiontestyes')

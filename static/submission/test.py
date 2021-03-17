@@ -1,4 +1,10 @@
-def hello():
-    print("Hello Brother")
+def hello(n):
+    print("Hello Brother",n)
+for i in range(0,3):
+    n = int(input())
+    hello(n)
 
-hello()
+# def sid(k):
+#     print('hello sid',k)
+# k = int(input())
+# sid(k)    
