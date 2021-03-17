@@ -25,6 +25,9 @@ def home():
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
+    if 'username' in session:
+        username=session['username']
+        return redirect('/')
     if(request.method=='POST'):
         form_details=request.form
         print(form_details)
@@ -36,15 +39,20 @@ def sign_up():
 
 @app.route('/login',methods=['POST','GET'])
 def login():
+    if 'username' in session:
+        username=session['username']
+        return redirect('/')
+    
     if(request.method=='POST'):
         form_details=request.form
         session['username']=request.form['username']
-        print(request.form['username'])
+        print(session['username'])
         data=api.login(form_details['username'],form_details['password'])
         if data == "correctPassword":
-            # flash('Successfully logged in')
+            
+
             print('Successfully logged in')
-            return render_template('index.html',username=request.form['username'])
+            return redirect('/')
         if data == "wrongPassword":
             # flash('wrongPassword')
             print('wrongPassword')
@@ -58,9 +66,10 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # session.pop('user_id')
+    session.pop('username')
+    print('You logged out')
     return redirect('/login')
-    # flash('You logged out')
+    
     # return json.dumps({'status':'logout'})
 
 
