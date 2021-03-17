@@ -26,7 +26,7 @@ broCode-Login
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form method="post" action='/login_validation'>
+					<form method="post" action='/login'>
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -80,6 +80,23 @@ broCode-Login
 	}
 		});
 		})()
+	</script>
+	<script>
+		$(document).ready(function() {
+			// executes when HTML-Document is loaded and DOM is ready
+			console.log("document is ready");
+			
+
+			$( ".card" ).hover(
+			function() {
+				$(this).addClass('shadow-lg').css('cursor', 'pointer'); 
+			}, function() {
+				$(this).removeClass('shadow-lg');
+			}
+			);
+			
+			// document ready  
+			});
 	</script>
 {% endblock %}
 

@@ -4,7 +4,28 @@
     border: 0 !important;
     border-radius: 0.25rem 0.25rem 0.25rem 0.25rem !important;
 }
-
+#loader { 
+	border: 12px solid #f3f3f3; 
+	border-radius: 50%; 
+	border-top: 12px solid #444444; 
+	width: 70px; 
+	height: 70px; 
+	animation: spin 1s linear infinite; 
+} 
+  
+@keyframes spin { 
+	100% { 
+		transform: rotate(360deg); 
+	} 
+} 
+.center { 
+            position: absolute; 
+            top: 0; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            margin: auto; 
+        } 
 
 
 
@@ -51,7 +72,7 @@
 	}
 }
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,200');
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 
@@ -93,7 +114,7 @@ border-right: 2px solid rgba(255,255,255,0.75) ;
 .anim-typewriter{
 animation:typewriter 1s steps(8) 1s 1 normal both,
 blinkTextCursor 600ms steps(8) infinite normal;
-animation-delay: 2s;
+animation-delay: 1s;
 /* animation-direction: alternate; */
 /* animation-iteration-count: 1; */
 /* animation-timing-function: ease; */
