@@ -12,11 +12,15 @@ broCode-Login
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 {% endblock %}
 
+{% block bodyClass %}<body>{% endblock %}
 
 {% block content %}
-	<div id="nav-placeholder">
-
-	</div>
+<!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+	<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div> -->
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -31,7 +35,7 @@ broCode-Login
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="username" class="form-control input_user "  placeholder="username" required="" oninvalid='this.setCustomValidity(" Enter your Username")' oninput="setCustomValidity('')">
+							<input type="text" name="username" class="form-control input_user "  placeholder="username" required="" >
 						</div>
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
@@ -98,6 +102,7 @@ broCode-Login
 			// document ready  
 			});
 	</script>
+
 {% endblock %}
 
 

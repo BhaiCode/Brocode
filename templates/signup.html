@@ -11,10 +11,19 @@ broCode-Register-here!
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="static\css\signup.css">
+	
 {% endblock %}
-
-{% block content %}
+{% block bodyClass %}<body>{% endblock %}
+{% block content %} 
 <br>
+<!-- onload='document.form.username.focus()' -->
+<!-- <div class="alert alert-warning alert-dismissible fade show" role="alert" id="error" >
+	<strong>{{error}}</strong> 
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+</div> -->
+	<!-- <h1 id="error">{{error}}</h1> -->
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -24,36 +33,40 @@ broCode-Register-here!
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form  method="post" action='/signup'>
-						<div class="input-group mb-2 zoom ">
-							<div class="input-group-append zoom">
+					
+					<!-- method="post" action='/signup' -->
+					<form     id="form" class="form">
+						<div class="input-group mb-2 zoom this error">
+							<div class="input-group-append zoom ">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="name" class="form-control input_user" value="" placeholder="Name">
+							<input maxlength="15" pattern=".{5,15}" oninvalid="this.setCustomValidity(' 5-10 characters')" onchange="try{setCustomValidity('')}catch(e){}"  type="text" id="name" name="name" class="form-control input_user" value="" placeholder="Name">
+							<!-- maxlength="15" -->
+							
 						</div>
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
 							</div>
-							<input type="email" name="email" class="form-control input_pass" value="" placeholder="Email">
+							<input type="email" pattern="(?!(^[.-].*|[^@]*[.-]@|.*\.{2,}.*)|^.{254}.)([a-zA-Z0-9!#$%&'*+\/=?^_`{|}~.-]+@)(?!-.*|.*-\.)([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,15}"  id="email" name="email" class="form-control input_pass" value="" placeholder="Email">
 						</div>
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="password" class="form-control input_pass" value="" placeholder="Password">
+							<input type="password" id="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}"  name="password" class="form-control input_pass" value="" placeholder="Password">
 						</div>
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="username" class="form-control input_pass" value="" placeholder="Username">
+							<input type="text" id="username" name="username" class="form-control input_pass" value="" placeholder="Username" >
 						</div>
 						<div class="input-group mb-2 zoom ">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-phone"></i></span>
 							</div>
-							<input type="text" name="phone_no" class="form-control input_pass" value="" placeholder="Phone No">
+							<input type="text" id="phone_no" pattern="((\+*)(0*|(0 )*|(0-)*|(91 )*)(\d{12}+|\d{10}+))|\d{5}([- ]*)\d{6}" name="phone_no" class="form-control input_pass" value="" placeholder="Phone No">
 						</div>
 						<div class="input-group mb-2 zoom ">
 							<div class="input-group-append">
@@ -63,12 +76,14 @@ broCode-Register-here!
 						</div>
 						 
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom " disabled="disabled">Sign Up</button>
+				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom "   
+					  >Sign Up</button>
+					  <!-- disabled="disabled" -->
 
 
 				   </div>
 				   <div style="width:220px; margin: 0 auto">
-					<p style="color: white; font-size : 13px; text-align: center;">Already a member? <a href="/login">Login here</a></p>
+					<p style="color: white; font-size : 13px; text-align: center;">Already a member? <a href="/login" >Login here</a></p>
 
 				   </div>
 
@@ -82,7 +97,7 @@ broCode-Register-here!
 {% endblock %}
 
 {% block js %}
-<script>
+<!-- <script>
 		(function() {
 		$('form > div >input').keyup(function() {
 			var empty = false;	
@@ -98,6 +113,12 @@ broCode-Register-here!
 	}
 		});
 	})()
-  </script>
+  </script> -->
+
+<!-- <script>
+	if ({{error}}) {
+	  document.getElementById("demo").innerHTML = "";
+	}
+</script> -->
 {% endblock %}
 

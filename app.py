@@ -19,9 +19,7 @@ def home():
         username=session['username']
         return render_template('index.html',username=username)  
     return redirect('/login')
-    items = api.api_get_all()
-    print(items)
-    return render_template('index.html',items=items)
+    
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
@@ -32,7 +30,10 @@ def sign_up():
         form_details=request.form
         print(form_details)
         session['username']=request.form['username']
-        api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
+        data=api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
+        if data == "usernameAlreadyExist":
+            print('usernameAlreadyExist')
+            return render_template('signup.html',error='usernameAlreadyExist') 
         flash('Hey, you signed in')
         return redirect('/')
     return render_template('signup.html')
@@ -41,6 +42,8 @@ def sign_up():
 def login():
     if 'username' in session:
         username=session['username']
+        print('user in session---')
+        print(username)
         return redirect('/')
     
     if(request.method=='POST'):
@@ -48,19 +51,19 @@ def login():
         session['username']=request.form['username']
         print(session['username'])
         data=api.login(form_details['username'],form_details['password'])
-        if data == "correctPassword":
-            
-
-            print('Successfully logged in')
-            return redirect('/')
+        if data == "UsernameDosenotExit":
+            # flash('UsernameDosenotExit')
+            print('UsernameDosenotExit')
+            return render_template('login.html') 
         if data == "wrongPassword":
             # flash('wrongPassword')
             print('wrongPassword')
             return render_template('login.html')
-        if data == "UsernameDosenotExit":
-            # flash('UsernameDosenotExit')
-            print('UsernameDosenotExit')
-            return render_template('login.html')      
+        if data == "correctPassword":
+            print('Successfully logged in')
+            return redirect('/')
+        
+             
     return render_template('login.html')            
 
 

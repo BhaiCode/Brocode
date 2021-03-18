@@ -12,6 +12,14 @@ def signup(name,username,password,email,phone_no,gender):
     )
     try:
         with conn.cursor() as curr:
+            sql1 = "select username from usermaster where username=(%s)"
+            curr.execute(sql1,username)
+            output=curr.fetchone()
+            print(output)
+            if(output):
+                return "usernameAlreadyExist"
+                
+            
             sql = "insert into usermaster (name,username,password,email,phone_no,gender) value (%s,%s,%s,%s,%s,%s)"
             phone_no=int(phone_no)
             curr.execute(sql,(name,username,password,email,phone_no,gender))
