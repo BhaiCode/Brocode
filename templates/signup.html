@@ -11,18 +11,36 @@ broCode-Register-here!
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="static\css\signup.css">
+	<script> 
+        document.onreadystatechange = function() { 
+            if (document.readyState !== "complete") { 
+                document.querySelector( 
+                  "body").style.visibility = "hidden"; 
+                document.querySelector( 
+                  "#loader").style.visibility = "visible"; 
+            } else { 
+                document.querySelector( 
+                  "#loader").style.display = "none"; 
+                document.querySelector( 
+                  "body").style.visibility = "visible"; 
+            } 
+        }; 
+    </script> 
+	<style>
+	#loadOverlay{display: none;}
+	</style>
 	
 {% endblock %}
-{% block bodyClass %}<body>{% endblock %}
+<!-- {% block bodyClass %}<body>{% endblock %} -->
 {% block content %} 
 <br>
 <!-- onload='document.form.username.focus()' -->
-<!-- <div class="alert alert-warning alert-dismissible fade show" role="alert" id="error" >
-	<strong>{{error}}</strong> 
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="error" >
+	<strong class="text-dark">{{error}}</strong> 
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 	  <span aria-hidden="true">&times;</span>
 	</button>
-</div> -->
+</div>
 	<!-- <h1 id="error">{{error}}</h1> -->
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
@@ -35,15 +53,19 @@ broCode-Register-here!
 				<div class="d-flex justify-content-center form_container">
 					
 					<!-- method="post" action='/signup' -->
-					<form     id="form" class="form">
+					<form   method="post" action='/signup'  id="form" class="form">
 						<div class="input-group mb-2 zoom this error">
 							<div class="input-group-append zoom ">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
 							<input maxlength="15" pattern=".{5,15}" oninvalid="this.setCustomValidity(' 5-10 characters')" onchange="try{setCustomValidity('')}catch(e){}"  type="text" id="name" name="name" class="form-control input_user" value="" placeholder="Name">
+							<!-- <input maxlength="15" onclick="validate();"  type="text" id="name" name="name" class="form-control input_user" value="" placeholder="Name"> -->
+
 							<!-- maxlength="15" -->
 							
 						</div>
+						<small id="smallName" class="form-text mb-2" style="text-align: right; "></small>
+
 						<div class="input-group mb-2 zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
@@ -62,12 +84,13 @@ broCode-Register-here!
 							</div>
 							<input type="text" id="username" name="username" class="form-control input_pass" value="" placeholder="Username" >
 						</div>
-						<div class="input-group mb-2 zoom ">
+						<div class="input-group  zoom ">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-phone"></i></span>
 							</div>
 							<input type="text" id="phone_no" pattern="((\+*)(0*|(0 )*|(0-)*|(91 )*)(\d{12}+|\d{10}+))|\d{5}([- ]*)\d{6}" name="phone_no" class="form-control input_pass" value="" placeholder="Phone No">
 						</div>
+						<small id="smallmobile" class="form-text mb-2" style="text-align: right; "></small>
 						<div class="input-group mb-2 zoom ">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -76,7 +99,7 @@ broCode-Register-here!
 						</div>
 						 
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom "   
+				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom " disabled="disabled"  
 					  >Sign Up</button>
 					  <!-- disabled="disabled" -->
 
@@ -97,7 +120,51 @@ broCode-Register-here!
 {% endblock %}
 
 {% block js %}
-<!-- <script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+		var name = document.getElementById('name').value;
+		if(!regName.test(name)){
+			$("#smallName").html("*Invalid Name").css("color", "red");
+			// alert('Please enter your full name (first & last name).');
+			document.getElementById('name').focus();
+			return false;
+		}else{
+			// alert('accepted');
+			$("#smallName").html("Name accepted").css("color", "green");
+
+			return true;
+		}
+	}
+	</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+	  
+		///////////////////==MOBILE-REGULAR-EXPRESSION/////////////////////
+		$("#phone_no").blur(function() {
+			var r = /^[6-9]{1}[0-9]{9}$/;
+			var tmob = $("#phone_no").val();
+			if (r.test(tmob) == false) {
+				
+
+				$("#smallmobile").html("*Invalid Mobile number").css("color", "red");
+			} else if (tmob == "") {
+				
+
+				 $("#smallmobile").html("*vacant").css("color", "orange");
+			} else {
+			   
+
+				$("#smallmobile").html("Acceptable Format").css("color", "green");
+			}
+		});
+	
+		
+		
+	});
+
+</script>
+<script>
 		(function() {
 		$('form > div >input').keyup(function() {
 			var empty = false;	
@@ -115,7 +182,7 @@ broCode-Register-here!
 	})()
   </script> -->
 
-<!-- <script>
+ <!-- <script>
 	if ({{error}}) {
 	  document.getElementById("demo").innerHTML = "";
 	}

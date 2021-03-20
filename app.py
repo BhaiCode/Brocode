@@ -23,6 +23,7 @@ def home():
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
+    print
     if 'username' in session:
         username=session['username']
         return redirect('/')
@@ -34,6 +35,12 @@ def sign_up():
         if data == "usernameAlreadyExist":
             print('usernameAlreadyExist')
             return render_template('signup.html',error='usernameAlreadyExist') 
+        if data == "emailAlreadyExist":
+            print('emailAlreadyExist')
+            return render_template('signup.html',error='emailAlreadyExist') 
+        if data == "phone_noAlreadyExist":
+            print('phone_noAlreadyExist')
+            return render_template('signup.html',error='phone_noAlreadyExist') 
         flash('Hey, you signed in')
         return redirect('/')
     return render_template('signup.html')

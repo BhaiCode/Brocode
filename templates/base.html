@@ -3,6 +3,10 @@
 
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" /> 
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
@@ -35,13 +39,16 @@
             margin: auto; 
         } 
     </style>
+    
 
     {% block css %}{% endblock %}
     
 </head>
 
 
- {% block bodyClass %}{% endblock %} 
+ <!-- {% block bodyClass %}{% endblock %}  -->
+<body>
+    <!-- <div id="loadOverlay" style="background-color:#333; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div> -->
     
     <div id="loader" class="center"></div> 
     <nav class="navbar navbar-expand-lg navbar-dark  row " style="background-color: rgb(14, 30, 64);">
@@ -78,21 +85,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="static\js\index.js"></script>
-    <script> 
-        document.onreadystatechange = function() { 
-            if (document.readyState !== "complete") { 
-                document.querySelector( 
-                  "body").style.visibility = "hidden"; 
-                document.querySelector( 
-                  "#loader").style.visibility = "visible"; 
-            } else { 
-                document.querySelector( 
-                  "#loader").style.display = "none"; 
-                document.querySelector( 
-                  "body").style.visibility = "visible"; 
-            } 
-        }; 
-    </script> 
+    
     
 
 </body>
