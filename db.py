@@ -13,17 +13,33 @@ def signup(name,username,password,email,phone_no,gender):
     try:
         with conn.cursor() as curr:
             sql1 = "select username from usermaster where username=(%s)"
+            sql2 = "select email from usermaster where email=(%s)"
+            sql3 = "select phone_no from usermaster where phone_no=(%s)"
             curr.execute(sql1,username)
             output=curr.fetchone()
             print(output)
             if(output):
                 return "usernameAlreadyExist"
+
+            curr.execute(sql2,email)
+            output=curr.fetchone()
+            print(output)
+            if(output):
+                return "emailAlreadyExist"
+
+            curr.execute(sql3,phone_no)
+            output=curr.fetchone()
+            print(output)
+            if(output):
+                return "phone_noAlreadyExist"
                 
             
             sql = "insert into usermaster (name,username,password,email,phone_no,gender) value (%s,%s,%s,%s,%s,%s)"
             phone_no=int(phone_no)
             curr.execute(sql,(name,username,password,email,phone_no,gender))
             conn.commit()
+            output=curr.fetchone()
+            print(output)
     except Exception as e:
         print(e)        
 
