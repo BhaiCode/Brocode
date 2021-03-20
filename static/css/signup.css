@@ -39,7 +39,7 @@
 			width: 170px;
 			top: -75px;
 			border-radius: 50%;
-			background: rgb(90, 95, 110);
+			background: rgb(81, 84, 94);
 			padding: 10px;
 			text-align: center;
 		}
@@ -78,3 +78,5 @@
 		.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
 			background-color: #c0392b !important;
 		}
+
+		
