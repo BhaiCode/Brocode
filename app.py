@@ -6,7 +6,7 @@ import os
 import sys
 import random
 import generator as gen
-
+import check as compiler
 app = Flask(__name__)
 
 
@@ -17,11 +17,12 @@ app.secret_key=os.urandom(24)
 def home():
     if 'username' in session:
         username=session['username']
-        return render_template('index.html',username=username)  
+        items= api.api_get_all()
+        return render_template('index.html',items=items,username=username)  
     return redirect('/login')
-    items = api.api_get_all()
-    print(items)
-    return render_template('index.html',items=items)
+    
+    # print(items,key)
+    # return render_template('index.html',items=items)
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
@@ -39,12 +40,12 @@ def login():
     if(request.method=='POST'):
         form_details=request.form
         session['username']=request.form['username']
-        print(request.form['username'])
         data=api.login(form_details['username'],form_details['password'])
         if data == "correctPassword":
             # flash('Successfully logged in')
             print('Successfully logged in')
-            return render_template('index.html',username=request.form['username'])
+            items= api.api_get_all()
+            return redirect("/")
         if data == "wrongPassword":
             # flash('wrongPassword')
             print('wrongPassword')
@@ -98,13 +99,16 @@ def api_question():
         filename = secure_filename(file3.filename)
         file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
         l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+        app.config['UPLOAD_FOLDER']=credential.path4
         filename = secure_filename(file4.filename)
         file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
         l4 = os.path.join(app.config['UPLOAD_FOLDER'], filename)   
         q_key=gen.key()
-        while api.check_qkey(q_key)==False:
+        print("yes")
+        while api.check_qkey(q_key):
             q_key=gen.key()
-        api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4)
+        print("hello")
+        api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4,form_details['time_limit'])
         return json.dumps({'status':'0'})
     except:
         return json.dumps({'status':'1'})   
@@ -124,6 +128,35 @@ def before_request():
 
     if'user' in session:
         g.user=session['user']
+
+@app.route('/question/<key>',methods=['POST','GET'])        
+def show_question(key):
+    loc,name = api.get_quest(key)
+    return render_template('question.html',loc=loc,name=name,key=key)
+
+@app.route('/submit',methods=['POST','GET'])
+def submit():
+    try:
+        f = request.files['file']
+        q = request.form['ques_id']
+        sub_id = gen.sub_id()
+        while api.check_subid(sub_id):
+            sub_id = gen.sub_id()
+        f.filename = sub_id+".py"
+        filename = secure_filename(f.filename)
+        app.config['UPLOAD_FOLDER']=credential.sub_path
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        username = session['username']
+        api.submit(q,sub_id,username,"0","0",l1,"")
+        if compiler.check(q,sub_id)==True:
+            print("helllo bro")
+            return json.dumps({'status':'0'})
+        else:
+            print("kya kr rhe bhai")
+            return json.dumps({'status':'1'}) 
+    except Exception as e:   
+        return json.dumps({'status':'1'}) 
 
 if __name__ == '__main__':
     app.run(debug=True)

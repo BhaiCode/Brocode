@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{name}}
+{% endblock %}
+{% block profileButton %}
+<div class="btn-group">
+  <button type="button" class="btn btn-danger btn-sm">{{ username }}</button>
+  <button type="button" class="btn btn-danger btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+    <a class="dropdown-item" href="#">Profile</a>
+    <a class="dropdown-item" href="#">Dashboard</a>
+    <a class="dropdown-item" href="/cse2ndYear">CSE-2nd Year</a>
+    <a class="dropdown-item" href="/logout">Logout</a>
+    <!-- <div class="dropdown-divider"></div> -->
+  </div>
+</div>
+<!-- <a class="dropdown-item text-light" href="/logout">Logout</a> -->
+{% endblock %}
+{% block js %}
+<script src = "/static/js/question.js"></script>
+{% endblock %}
+{% block question %}
+<iframe
+    src="/{{ loc }}" 
+    type="application/pdf" 
+    width="70%" 
+    height="600px"
+    style = 'position: center;margin-left: 10%;margin-top: 5%;'
+    scrolling = "auto"
+    frameBorder = '0' 
+  ></iframe>
+    <form enctype="multipart/form-data" onsubmit="return false" id="submit_ques">
+      <label for="file">submit</label>
+      <input type="hidden" id="ques_id" name="ques_id" value="{{ key }}">
+      <input id="file" type="file" name="file">
+      <span id="file_ok" style="display:none"></span>
+      <input id="submit" type="submit" value="Upload">
+    </form>
+{% endblock %}

@@ -29,9 +29,9 @@
 
 
 
-.Vector_6:hover{
-}
-	animation:zoom-block 0.5s ease ;
+/* .Vector_6:hover{
+} */
+	/* animation:zoom-block 0.5s ease ; */
 @keyframes zoom-block {
 	0% {
 		
@@ -381,3 +381,10 @@ section {
 .action-sec{width:100%; float:left; background:#222}
 .action-box{float:left; width:100%; text-align:center;}
 .action-box h2{color:#fff; font-size:20px;}
+
+.ques_link{
+	align-items: center;
+	margin-left: 500px;
+	position: center;
+	color:	#c0392b;
+}

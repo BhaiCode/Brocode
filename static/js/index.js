@@ -33,8 +33,8 @@ $(document).on( "click","#logout", function() {
 
 
 
-  return pub;
-})(document, window);
+//   return pub;
+// })(document, window);
 
 
 

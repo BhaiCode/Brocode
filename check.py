@@ -3,22 +3,31 @@ import sys,subprocess
 import credential
 import contextlib
 import filecmp 
-
+import db as api
 # for only now i take submission id as a location after complition it must be taken from database
 # question id as solution id
 # alter queston table
-def check(ques_id,submission_id,user_id):
-    if submission_id.endswith('.py'):
-        sub_name = get_name(submission_id)
-        name = str(sub_name)+str('yes') #yes used for name of question
+def check(ques_id,submission_id):
+    test_case,act_out = api.get_check_need(ques_id)
+    sub_file = api.get_sub_det(submission_id)
+    if sub_file.endswith('.py'):
+        sub_name = get_name(sub_file)
+        name = str(sub_name)
+        # +str('yes') #yes used for name of question
         out = get_file(name)
         st = []
-        st = get_command('python3',submission_id,out)
+        st = get_command('python3',sub_file,out)
         with open(out,'w+') as f:
-            with open(user_id,'r') as r:
+            with open(test_case,'r') as r:
                 s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
         tag = 's'
-        print(result(str(out),str(ques_id),tag))
+        if result(str(out),str(act_out),tag):
+            api.sub_update(submission_id,out,"1")
+            return True
+        else:
+            api.sub_update(submission_id,out,"0")
+            return False 
+    else: print("hahah")        
 
 def result(sub_out,act_out,tag):
     if tag == 's':    
@@ -61,5 +70,4 @@ def del_file(name):
         print(error)    
 
 # print(os.path.abspath('static/submission/test.py'))
-check('static/static_output/test.txt','static/submission/test.py','static/test_case/test.txt')
 # get_file('staticsubmissiontestyes')

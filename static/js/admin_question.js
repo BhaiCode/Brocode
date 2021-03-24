@@ -58,7 +58,7 @@ $(document).ready(function () {
     
     $('#file3').on('change', function () {
         var fileInput = $('#file3').val(); 
-        var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+        var allowedExtensions = /(\.py)$/i;
         if (!allowedExtensions.exec(fileInput)) {
             $('#file3_ok').text("Wrong Extension");
             $('#file3_ok').show();
