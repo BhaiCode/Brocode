@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+</head>
+<body>
+    <div class="forlogin">
+        <form method="post" action='/login_admin'>
+            <div class="input-group mb-2 zoom">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" name="username" class="form-control input_user "  placeholder="username" required="" >
+            </div>
+            <div class="input-group mb-2 zoom">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <input type="password" name="password" class="form-control input_pass" value="" placeholder="password" required oninvalid='this.setCustomValidity(" Enter your password")' oninput="setCustomValidity('')">
+            </div>
+                <div class="d-flex justify-content-center mt-3 login_container">
+         <button type="submit" name="button" id="subnewtopic" class="btn login_btn zoom" >Login</button>
+         <!-- disabled="disabled" -->
+       </div>
+    </div>
+</body>
+</html>

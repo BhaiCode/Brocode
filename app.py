@@ -26,42 +26,56 @@ def home():
 
 @app.route('/signup',methods=['POST','GET'])
 def sign_up():
+    if 'username' in session:
+        username=session['username']
+        return redirect('/')
     if(request.method=='POST'):
         form_details=request.form
         print(form_details)
         session['username']=request.form['username']
-        api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
+        data=api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
+        if data == "usernameAlreadyExist":
+            print('usernameAlreadyExist')
+            return render_template('signup.html',error='usernameAlreadyExist') 
         flash('Hey, you signed in')
         return redirect('/')
     return render_template('signup.html')
 
 @app.route('/login',methods=['POST','GET'])
 def login():
+    if 'username' in session:
+        username=session['username']
+        print('user in session---')
+        print(username)
+        return redirect('/')
+    
     if(request.method=='POST'):
         form_details=request.form
         session['username']=request.form['username']
+        print(session['username'])
         data=api.login(form_details['username'],form_details['password'])
-        if data == "correctPassword":
-            # flash('Successfully logged in')
-            print('Successfully logged in')
-            items= api.api_get_all()
-            return redirect("/")
+        if data == "UsernameDosenotExit":
+            # flash('UsernameDosenotExit')
+            print('UsernameDosenotExit')
+            return render_template('login.html') 
         if data == "wrongPassword":
             # flash('wrongPassword')
             print('wrongPassword')
             return render_template('login.html')
-        if data == "UsernameDosenotExit":
-            # flash('UsernameDosenotExit')
-            print('UsernameDosenotExit')
-            return render_template('login.html')      
+        if data == "correctPassword":
+            print('Successfully logged in')
+            return redirect('/')
+        
+             
     return render_template('login.html')            
 
 
 @app.route('/logout')
 def logout():
-    # session.pop('user_id')
+    session.pop('username')
+    print('You logged out')
     return redirect('/login')
-    # flash('You logged out')
+    
     # return json.dumps({'status':'logout'})
 
 
@@ -115,12 +129,20 @@ def api_question():
 
 @app.route('/admin', methods=['POST','GET'])
 def new_question():
+    # return render_template('admin/admin_login.html')
     return render_template('admin_question.html')
 
 
-
-
-
+@app.route('/login_admin', methods=['POST','GET'])
+def login_admin():
+    try:
+        form_details = request.form
+        if form_details['username'] == credential.username:
+            if form_details['password'] == credential.password:
+                return render_template('admin_question.html')
+        return redirect('/admin')
+    except Exception as e:
+        print(e)    
 
 @app.before_request
 def before_request():
@@ -137,26 +159,38 @@ def show_question(key):
 @app.route('/submit',methods=['POST','GET'])
 def submit():
     try:
-        f = request.files['file']
-        q = request.form['ques_id']
-        sub_id = gen.sub_id()
-        while api.check_subid(sub_id):
+        if "username" in session:
+            f = request.files['file']
+            q = request.form['ques_id']
             sub_id = gen.sub_id()
-        f.filename = sub_id+".py"
-        filename = secure_filename(f.filename)
-        app.config['UPLOAD_FOLDER']=credential.sub_path
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        username = session['username']
-        api.submit(q,sub_id,username,"0","0",l1,"")
-        if compiler.check(q,sub_id)==True:
-            print("helllo bro")
-            return json.dumps({'status':'0'})
+            while api.check_subid(sub_id):
+                sub_id = gen.sub_id()
+            f.filename = sub_id+".py"
+            filename = secure_filename(f.filename)
+            app.config['UPLOAD_FOLDER']=credential.sub_path
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            username = session['username']
+            api.submit(q,sub_id,username,"0","0",l1,"")
+            if compiler.check(q,sub_id)==True:
+                print("helllo bro")
+                return json.dumps({'status':'0'})
+            else:
+                print("kya kr rhe bhai")
+                return json.dumps({'status':'1'})
         else:
-            print("kya kr rhe bhai")
-            return json.dumps({'status':'1'}) 
+            return json.dumps({'status':'1'})        
     except Exception as e:   
         return json.dumps({'status':'1'}) 
+
+@app.route('/api_check_username', methods=['POST'])
+def api_check_username():
+    # print("hello")
+    data=request.get_data().decode("utf-8").split("=")[1]
+    # print(data)
+    if(api.check_username(data)==True):
+        return json.dumps({'status':'0'})
+    return json.dumps({'status':'1'})
 
 if __name__ == '__main__':
     app.run(debug=True)
