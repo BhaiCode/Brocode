@@ -39,15 +39,14 @@ def get_name(name):
     # sub_name = op.join(sub_name)
     return sub_name
 
-def del_file(name):
-    location = credential.out_path
-    name = name + '.txt'
-    path = os.path.join(location,name)
+def del_file(loc):
     try:
-        os.remove(path) 
+        os.remove(loc) 
         print('Done')
+        return 1
     except OSError as error:
-        print(error)    
+        print(error)
+        return 0    
 
 def check(ques_id,submission_id):
     test_case,act_out = api.get_check_need(ques_id)

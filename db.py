@@ -18,8 +18,6 @@ def signup(name,username,password,email,phone_no,gender):
             print(output)
             if(output):
                 return "usernameAlreadyExist"
-                
-            
             sql = "insert into usermaster (name,username,password,email,phone_no,gender) value (%s,%s,%s,%s,%s,%s)"
             phone_no=int(phone_no)
             curr.execute(sql,(name,username,password,email,phone_no,gender))
@@ -269,3 +267,38 @@ def check_username(data):
             return True
     except Exception as e:
         print(e)      
+
+def get_details(key):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    ) 
+    try:
+        with conn.cursor() as curr:
+            sql = 'select ques_location,ques_test_case_file,ques_sol,ques_output from ques_master where ques_id = (%s)'
+            curr.execute(sql,key)
+            output = curr.fetchall()
+            return output[0]   
+    except Exception as e:
+        print(e)      
+
+def delete_question(key):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    ) 
+    try:
+        with conn.cursor() as curr:
+            sql = 'delete from ques_master where ques_id = (%s)'
+            curr.execute(sql,key)
+            conn.commit()
+            return 1    
+    except Exception as e:
+        print(e)    
+        return 0  

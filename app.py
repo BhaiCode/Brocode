@@ -32,11 +32,11 @@ def sign_up():
     if(request.method=='POST'):
         form_details=request.form
         print(form_details)
-        session['username']=request.form['username']
         data=api.signup(form_details['name'],form_details['username'],form_details['password'],form_details['email'],form_details['phone_no'],form_details['gender']) 
         if data == "usernameAlreadyExist":
             print('usernameAlreadyExist')
             return render_template('signup.html',error='usernameAlreadyExist') 
+        session['username']=request.form['username']
         flash('Hey, you signed in')
         return redirect('/')
     return render_template('signup.html')
@@ -51,8 +51,6 @@ def login():
     
     if(request.method=='POST'):
         form_details=request.form
-        session['username']=request.form['username']
-        print(session['username'])
         data=api.login(form_details['username'],form_details['password'])
         if data == "UsernameDosenotExit":
             # flash('UsernameDosenotExit')
@@ -63,6 +61,8 @@ def login():
             print('wrongPassword')
             return render_template('login.html')
         if data == "correctPassword":
+            session['username']=request.form['username']
+            print(session['username'])
             print('Successfully logged in')
             return redirect('/')
         
@@ -101,27 +101,33 @@ def api_question():
         l1=""
         l2=""
         l3 = ""
-        filename = secure_filename(file1.filename)
+        q_key=gen.key()
+        while api.check_qkey(q_key):
+            q_key=gen.key()
+        name = q_key + '.pdf'
+        filename = secure_filename(name)
         app.config['UPLOAD_FOLDER']=credential.path
         file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        filename = secure_filename(file2.filename)
+        
+        name = q_key + '.txt'
+        filename = secure_filename(name)
         app.config['UPLOAD_FOLDER']=credential.path2
         file2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))                
         l2 = os.path.join(app.config['UPLOAD_FOLDER'], filename)  
+        
+        ext = file3.filename.split('.')[-1]
+        name = q_key + '.'+ext
         app.config['UPLOAD_FOLDER']=credential.path3
-        filename = secure_filename(file3.filename)
+        filename = secure_filename(name)
         file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
         l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+        
+        name = q_key + '.txt'
         app.config['UPLOAD_FOLDER']=credential.path4
-        filename = secure_filename(file4.filename)
+        filename = secure_filename(name)
         file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
         l4 = os.path.join(app.config['UPLOAD_FOLDER'], filename)   
-        q_key=gen.key()
-        print("yes")
-        while api.check_qkey(q_key):
-            q_key=gen.key()
-        print("hello")
         api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4,form_details['time_limit'])
         return json.dumps({'status':'0'})
     except:
@@ -129,27 +135,59 @@ def api_question():
 
 @app.route('/admin', methods=['POST','GET'])
 def new_question():
-    # return render_template('admin/admin_login.html')
-    return render_template('admin_question.html')
+    # if 'username' in session:
+    #     return render_template('admin/admin_index.html')
+    return render_template('admin/admin_login.html')
+    # return render_template('admin/admin_index.html')
 
+
+@app.route('/add_question',methods=['POST','GET'])
+def add_question():
+    return render_template('admin_question.html')
 
 @app.route('/login_admin', methods=['POST','GET'])
 def login_admin():
     try:
         form_details = request.form
-        if form_details['username'] == credential.username:
-            if form_details['password'] == credential.password:
-                return render_template('admin_question.html')
+        if form_details['username'] == credential.admin_username:
+            if form_details['password'] == credential.admin_password:
+                # session['username'] = credential.admin_username
+                items= api.api_get_all()
+                return render_template('admin/admin_index.html',items=items)
         return redirect('/admin')
     except Exception as e:
         print(e)    
 
-@app.before_request
-def before_request():
-    g.user=None
+@app.route('/delete_question',methods=['POST','GET'])
+def delete_question():
+    try:
+        key = request.get_data().decode("utf-8")
+        data = api.get_details(key)
+        if compiler.del_file(data[0])==1:
+            if compiler.del_file(data[1])==1:
+                if compiler.del_file(data[2])==1:
+                    if compiler.del_file(data[3])==1:
+                        if api.delete_question(key)==1:
+                            return json.dumps({'status':'1'})
+                        else:
+                            return json.dumps({'status':'0'})
+                    else:
+                        return json.dumps({'status':'0'})
+                else:
+                    return json.dumps({'status':'0'})            
+            else:
+                return json.dumps({'status':'0'})        
+        else:
+            return json.dumps({'status':'0'})        
+    except Exception as e:    
+        return json.dumps({'status':'0'})
 
-    if'user' in session:
-        g.user=session['user']
+# @app.before_request
+# def before_request():
+#     g.user=None
+
+#     if'user' in session:
+#         g.user=session['user']
 
 @app.route('/question/<key>',methods=['POST','GET'])        
 def show_question(key):
