@@ -1,4 +1,5 @@
-from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g
+from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g,make_response,Response
+
 import db as api
 import credential
 from werkzeug.utils import secure_filename
@@ -18,7 +19,8 @@ def home():
     if 'username' in session:
         username=session['username']
         items= api.api_get_all()
-        return render_template('index.html',items=items,username=username)  
+        
+        return render_template('index.html',items=items,username=username) 
     return redirect('/login')
     
     # print(items,key)
@@ -192,7 +194,13 @@ def delete_question():
 @app.route('/question/<key>',methods=['POST','GET'])        
 def show_question(key):
     loc,name = api.get_quest(key)
-    return render_template('question.html',loc=loc,name=name,key=key)
+    # username=session['username']
+    print (loc)
+    # response = make_response( render_template('question.html', loc=loc,name=name,key=key))
+    # response.headers['Content-Type']='application/pdf'
+    # response.headers['Content-Disposition']='inline;'     
+    # return  response  
+    return  render_template('question.html', loc=loc,name=name,key=key)  
 
 @app.route('/submit',methods=['POST','GET'])
 def submit():

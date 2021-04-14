@@ -15,6 +15,8 @@ broCode-Register-here!
 {% endblock %}
 {% block bodyClass %}<body>{% endblock %}
 {% block content %} 
+<span id="name_ok" style="display:none; float:right;"></span>
+
 <br>
 <!-- onload='document.form.username.focus()' -->
 <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert" id="error" >
@@ -56,14 +58,13 @@ broCode-Register-here!
 							</div>
 							<input type="password" id="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}"  name="password" class="form-control input_pass" value="" placeholder="Password">
 						</div>
-						<div class="input-group mb-2 zoom">
+						<div class="input-group  zoom">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
 							<input type="text" id="username" name="username" class="form-control input_pass" value="" placeholder="Username" >
 						</div>
-						<span id="name_ok" style="display:none "></span>
-						<div class="input-group mb-2 zoom ">
+						<div class="input-group mb-2 mt-2 ">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-phone"></i></span>
 							</div>
@@ -77,8 +78,7 @@ broCode-Register-here!
 						</div>
 						 
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom "   
-					  >Sign Up</button>
+				 	<button type="submit" name="button" id ="subnewtopic" class="btn login_btn zoom " disabled="disabled">Sign Up</button>
 					  <!-- disabled="disabled" -->
 
 
@@ -98,7 +98,7 @@ broCode-Register-here!
 {% endblock %}
 
 {% block js %}
-<!-- <script>
+<script>
 		(function() {
 		$('form > div >input').keyup(function() {
 			var empty = false;	
@@ -114,7 +114,7 @@ broCode-Register-here!
 	}
 		});
 	})()
-  </script> -->
+  </script>
 
 <!-- <script>
 	if ({{error}}) {

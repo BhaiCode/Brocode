@@ -384,7 +384,7 @@ section {
 
 .ques_link{
 	align-items: center;
-	margin-left: 500px;
+	/* margin-left: 500px; */
 	position: center;
 	color:	#c0392b;
 }
