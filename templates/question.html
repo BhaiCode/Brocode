@@ -25,7 +25,7 @@
 {% endblock %}
 {% block question %}
 <iframe
-    src="/{{ loc }}" 
+    src="https://drive.google.com/file/d/144Ws4iqwiyhF0wNtdPoDTfZpWImBwuFo/view?usp=sharing" 
     type="application/pdf" 
     width="70%" 
     height="600px"
@@ -33,6 +33,14 @@
     scrolling = "auto"
     frameBorder = '0' 
   ></iframe>
+  <!-- <iframe id="fred" style="border:1px solid #666CCC" title="PDF in an i-Frame" src="/ {{ loc }}" frameborder="1" scrolling="auto" height="1100" width="850" ></iframe> -->
+
+  
+  <!-- <object data="/{{ loc }}" type="application/pdf">
+    <embed src="/{{ loc }}" type="application/pdf" />
+     <h1>{{ loc }}</h1>
+</object> -->
+
     <form enctype="multipart/form-data" onsubmit="return false" id="submit_ques">
       <label for="file">submit</label>
       <input type="hidden" id="ques_id" name="ques_id" value="{{ key }}">
