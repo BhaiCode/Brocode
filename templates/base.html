@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     {% block link %}{% endblock %}
     <style> 
-        #loader { 
+        /* #loader { 
             border: 12px solid #f3f3f3; 
             border-radius: 50%; 
             border-top: 12px solid #444444; 
@@ -38,7 +38,40 @@
             left: 0; 
             right: 0; 
             margin: auto; 
-        } 
+        }  */
+        #anim{
+    max-width: 150px;
+    margin:0 auto;
+    } 
+        
+        
+body {
+  margin: 0;
+  padding: 0;
+  width:100vw;
+  height: 100vh;
+  background-color: #eee;
+}
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  height:100%;
+}
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(25,25,25);;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
     </style>
 
     {% block css %}{% endblock %}
@@ -48,27 +81,30 @@
 
  {% block bodyClass %}{% endblock %} 
     
-    <!-- <div id="loader" class="center"></div>  -->
-    <nav class="navbar navbar-expand-lg navbar-dark   " style="background-color: rgb(14, 30, 64); max-width: 100%; ">
-        <div class="row col-md-10 " >
-            <span class="input-group-text" style><i class="fas fa-user"></i></span>
-            <a class="navbar-brand line anim-typewriter text-light"  style="padding-left: 0.5%;" >broCode</a>
-        </div> 
-        <div class="col-md-2 " style="display: flex; justify-content: flex-end">
-            <ul class="navbar-nav ">
-                <li class="nav-item active row">
-                    {% block profileButton %}{% endblock %}
-                    <!-- <a href={{url_for('login')}}><button type="button" class="btn btn-outline-danger">Log In</button></a>
-                    <a href={{url_for('sign_up')}}><button type="button" class="btn btn-outline-danger">Sign Up</button></a> -->
-                    
-                    <!-- <a href="/logout"><button type="button" class="btn btn-outline-danger"> Logout</button></a> -->
-                </li>
-            </ul>
-        </div>
-    </nav>
-    {% block question %}{% endblock %}
-    {% block content %}{% endblock %}
-
+    <!-- <div class="content"> -->
+        <nav class="navbar navbar-expand-lg navbar-dark   " style="background-color: rgb(14, 30, 64); max-width: 100%; ">
+            <div class="row col-md-10 " >
+                <span class="input-group-text" style><i class="fas fa-user"></i></span>
+                <a class="navbar-brand line anim-typewriter text-light"  style="padding-left: 0.5%;" >broCode</a>
+            </div> 
+            <div class="col-md-2 " style="display: flex; justify-content: flex-end">
+                <ul class="navbar-nav ">
+                    <li class="nav-item active row">
+                        {% block profileButton %}{% endblock %}
+                        <!-- <a href={{url_for('login')}}><button type="button" class="btn btn-outline-danger">Log In</button></a>
+                        <a href={{url_for('sign_up')}}><button type="button" class="btn btn-outline-danger">Sign Up</button></a> -->
+                        
+                        <!-- <a href="/logout"><button type="button" class="btn btn-outline-danger"> Logout</button></a> -->
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% block question %}{% endblock %}
+        {% block content %}{% endblock %}
+    <!-- </div> -->
+    <div class="loader-wrapper" >
+        <div id="anim"></div>
+    </div>
     {% block js %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -84,6 +120,13 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="/static/js/index.js"></script>
+    <script src="\static\js\lottie.js"></script>
+    <script src="\static\js\scriptsss.js"></script>
+    <script>
+        $(window).on("load",function(){
+     $(".loader-wrapper").fadeOut("slow");
+});
+    </script>
     <!-- <script> 
         document.onreadystatechange = function() { 
             if (document.readyState !== "complete") { 
