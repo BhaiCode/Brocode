@@ -77,10 +77,19 @@ broCode
 <br>
 <br>
 <br>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <div class="container row ">
-  <div class="col-md-5">
+  <div class="col-md-6" >
     <svg width="100%" height="100%" viewBox="0 0 904 787" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect fill="null" />
       <g id="undraw_coding_6mjf 1" clip-path="url(#clip0)">
@@ -238,19 +247,18 @@ broCode
       </defs>
     </svg>
   </div>
-  
-  <div class="col-md-7 ">
-    <h1>top 5 performers</h1>
+  <div class="questions col-md-6">
+    {% for keys in items %}
+    <!-- <span>{{ keys }}</span> -->
+    <a class='ques_link' id="{{ keys }}" href='/question/{{ items[keys] }}'>{{ keys }}</a>
+    <br>
+    {% endfor %}
   </div>
+ 
+  
 </div>
 
-<div class="questions">
-  {% for keys in items %}
-  <span>{{ keys }}</span>
-  <a class='ques_link' id="{{ keys }}" href='/question/{{ items[keys] }}'>Link</a>
-  <br>
-  {% endfor %}
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

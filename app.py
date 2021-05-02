@@ -1,4 +1,7 @@
-from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g
+from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g,make_response,Response
+from pydrive.drive import GoogleDrive
+from pydrive.auth import GoogleAuth
+from werkzeug.datastructures import FileStorage
 import db as api
 import credential
 from werkzeug.utils import secure_filename
@@ -12,13 +15,17 @@ app = Flask(__name__)
 
 
 app.secret_key=os.urandom(24)
+# gauth = GoogleAuth()
+# gauth.LocalWebserverAuth()       
+# drive = GoogleDrive(gauth)
 
 @app.route('/')
 def home():
     if 'username' in session:
         username=session['username']
         items= api.api_get_all()
-        return render_template('index.html',items=items,username=username)  
+        
+        return render_template('index.html',items=items,username=username) 
     return redirect('/login')
     
     # print(items,key)
@@ -90,55 +97,127 @@ def api_check_name():
         return json.dumps({'status':'0'})
     return json.dumps({'status':'1'})
 
+# @app.route('/api_question',methods=['POST','GET'])
+# def api_question():
+#     try:
+#         file1 = request.files['file1']
+#         # file2 = request.files['file2']
+#         # file3 = request.files['file3']    
+#         # file4 = request.files['file4']   
+#         # form_details = request.form
+#         l1=""
+#         # l2=""
+#         # l3 = ""
+#         q_key=gen.key()
+#         while api.check_qkey(q_key):
+#             q_key=gen.key()
+#         name = q_key + '.pdf'
+#         filename = secure_filename(name)
+#         print(filename)
+#         # app.config['UPLOAD_FOLDER']=credential.path
+#         # file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#         # l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#         f = drive.CreateFile({'title': filename})
+#         print("hhahaha")
+#         # f.SetContentFile(os.path.join(credential.drive_path,filename))
+#         print("hhahaha22")
+#         f.Upload()
+#         print("hhahaha333")
+#         f=None
+#         l1 = os.path.join(credential.drive_path,filename)
+#         print(l1)
+#         # name = q_key + '.txt'
+#         # filename = secure_filename(name)
+#         # app.config['UPLOAD_FOLDER']=credential.path2
+#         # file2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))                
+#         # l2 = os.path.join(app.config['UPLOAD_FOLDER'], filename)  
+        
+#         # ext = file3.filename.split('.')[-1]
+#         # name = q_key + '.'+ext
+#         # app.config['UPLOAD_FOLDER']=credential.path3
+#         # filename = secure_filename(name)
+#         # file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
+#         # l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+        
+#         # name = q_key + '.txt'
+#         # app.config['UPLOAD_FOLDER']=credential.path4
+#         # filename = secure_filename(name)
+#         # file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
+#         # l4 = os.path.join(app.config['UPLOAD_FOLDER'], filename)   
+#         # api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4,form_details['time_limit'])
+#         return json.dumps({'status':'0'})
+#     except Exception as e:
+#         print(e)
+#         return json.dumps({'status':'1'})   
 @app.route('/api_question',methods=['POST','GET'])
 def api_question():
     try:
-        file1 = request.files['file1']
-        file2 = request.files['file2']
-        file3 = request.files['file3']    
-        file4 = request.files['file4']   
         form_details = request.form
-        l1=""
-        l2=""
-        l3 = ""
+        sol = request.files['solution']
+
+        
+        # # create question key
         q_key=gen.key()
         while api.check_qkey(q_key):
             q_key=gen.key()
-        name = q_key + '.pdf'
-        filename = secure_filename(name)
-        app.config['UPLOAD_FOLDER']=credential.path
-        file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        
-        name = q_key + '.txt'
-        filename = secure_filename(name)
-        app.config['UPLOAD_FOLDER']=credential.path2
-        file2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))                
-        l2 = os.path.join(app.config['UPLOAD_FOLDER'], filename)  
-        
-        ext = file3.filename.split('.')[-1]
+
+        ext = sol.filename.split('.')[-1]
         name = q_key + '.'+ext
         app.config['UPLOAD_FOLDER']=credential.path3
         filename = secure_filename(name)
-        file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
-        l3 = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+        sol.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
+        sol_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
+
+        directory = q_key
+        parent_dir = credential.parent_dir
+        path = os.path.join(parent_dir,q_key)
+        os.mkdir(path)
+
+        parent_dir = path
+        directory = "input"
+        path = os.path.join(parent_dir,directory)
+        os.mkdir(path)
+        test_path = path
+
+        i=1
+        for f in request.files.getlist('testfiles'):
+            f.save(os.path.join(path,"test_case_"+str(i)))
+            i+=1
         
-        name = q_key + '.txt'
-        app.config['UPLOAD_FOLDER']=credential.path4
-        filename = secure_filename(name)
-        file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))        
-        l4 = os.path.join(app.config['UPLOAD_FOLDER'], filename)   
-        api.new_question(q_key,l1,form_details['question_name'],l2,l3,l4,form_details['time_limit'])
+        directory = "output"
+        path = os.path.join(parent_dir,directory)
+        os.mkdir(path)
+        out_path = path
+
+        i=1
+        for f in request.files.getlist('opfiles'):
+            f.save(os.path.join(path,"test_output_"+str(i)))
+            i+=1
+        
+        q_path = credential.path
+        q_name = str(q_key)+".txt"
+        ques_path = os.path.join(q_path,q_name)
+        # print(q)
+        with open(ques_path,'w') as fl:
+            fl.write(form_details['content'])
+            fl.close()
+        
+
+
+        api.new_question(q_key,ques_path,form_details['name'],test_path,sol_path,out_path,form_details['timelimit'],form_details['spacelimit'])        
+
+        # print(test_case)
         return json.dumps({'status':'0'})
-    except:
-        return json.dumps({'status':'1'})   
+    except Exception as e:
+        print(e)
+        return json.dumps({'status':'1'})  
 
 @app.route('/admin', methods=['POST','GET'])
 def new_question():
     # if 'username' in session:
     #     return render_template('admin/admin_index.html')
-    return render_template('admin/admin_login.html')
-    # return render_template('admin/admin_index.html')
+    # return render_template('admin/admin_login.html')
+    return render_template('admin/admin_index.html')
 
 
 @app.route('/add_question',methods=['POST','GET'])
@@ -191,8 +270,16 @@ def delete_question():
 
 @app.route('/question/<key>',methods=['POST','GET'])        
 def show_question(key):
-    loc,name = api.get_quest(key)
-    return render_template('question.html',loc=loc,name=name,key=key)
+    q_loc,name,timelimit,space_limit = api.get_quest(key)
+    # username=session['username']
+    file = open(q_loc,'r+')
+    data = file.read()
+    print(q_loc,name,timelimit,space_limit)
+    # response = make_response( render_template('question.html', loc=loc,name=name,key=key))
+    # response.headers['Content-Type']='application/pdf'
+    # response.headers['Content-Disposition']='inline;'     
+    # return  response  
+    return  render_template('question.html', data=data,name=name,key=key,timelimit=timelimit,spacelimit=space_limit)  
 
 @app.route('/submit',methods=['POST','GET'])
 def submit():

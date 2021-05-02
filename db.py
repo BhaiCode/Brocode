@@ -48,7 +48,7 @@ def login(username,password):
     except Exception as e:
         print(e)       
 
-def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit):
+def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit,space_limit):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -58,10 +58,11 @@ def new_question(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,qu
     )
     try:
         with conn.cursor() as curr:
-            sql = "insert into ques_master (ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit) values (%s,%s,%s,%s,%s,%s,%s)"
+            sql = "insert into ques_master (ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit,space_limit) values (%s,%s,%s,%s,%s,%s,%s,%s)"
             # print(ques_id,ques_location,ques_name,ques_test_case_file)
             time_limit = int(time_limit)
-            curr.execute(sql,(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit))
+            space_limit = int(space_limit)
+            curr.execute(sql,(ques_id,ques_location,ques_name,ques_test_case_file,ques_sol,ques_output,time_limit,space_limit))
             # print(ques_id,ques_location,ques_name,ques_test_case_file)
             conn.commit()
     except Exception as e:
@@ -155,10 +156,10 @@ def get_quest(ques_id):
     ) 
     try:
         with conn.cursor() as curr:
-            sql = "select ques_location,ques_name from ques_master where ques_id=(%s)"
+            sql = "select ques_location,ques_name,time_limit,space_limit from ques_master where ques_id=(%s)"
             curr.execute(sql,(ques_id))
             output = curr.fetchall()
-            return output[0][0],output[0][1]
+            return output[0][0],output[0][1],output[0][2],output[0][3]
     except Exception as e:
         print(e)             
 

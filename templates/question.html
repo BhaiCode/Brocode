@@ -24,22 +24,74 @@
 <script src = "/static/js/question.js"></script>
 {% endblock %}
 {% block question %}
-<iframe
-    src="https://drive.google.com/file/d/144Ws4iqwiyhF0wNtdPoDTfZpWImBwuFo/view?usp=sharing" 
-    type="application/pdf" 
-    width="70%" 
-    height="600px"
-    style = 'position: center;margin-left: 10%;margin-top: 5%;'
-    scrolling = "auto"
-    frameBorder = '0' 
-  ></iframe>
-  <!-- <iframe id="fred" style="border:1px solid #666CCC" title="PDF in an i-Frame" src="/ {{ loc }}" frameborder="1" scrolling="auto" height="1100" width="850" ></iframe> -->
-
-  
-  <!-- <object data="/{{ loc }}" type="application/pdf">
-    <embed src="/{{ loc }}" type="application/pdf" />
-     <h1>{{ loc }}</h1>
-</object> -->
+   <div class="  col-md-10" style="width:100%; margin: 0 auto; background-color: rgb(49 46 46); ">
+    <div style="user-select: auto;">
+      <aside style="margin: 10px 10px 10px 10px; user-select: auto; ">
+        <a href="/">Home</a>&nbsp;»&nbsp;<a href="#">Practice(Contest)</a>&nbsp;»&nbsp;{{name}}
+      </aside>
+    </div>
+    <h1 style="user-select: auto;font: bold normal 30px Helvetica,sans-serif;font-family: 'Anonymous Pro',monospace !important;line-height: 1.6;border-bottom: 1px solid;">
+      {{name}}
+      <span style="user-select: auto;
+      font-size: 18px;
+      font-weight: 400;
+      position: relative;
+      padding-left: 20px;
+      margin-left: 10px;
+      top: -4px;">Time limit: <strong id="problem-code" style="user-select: auto;">{{timelimit}} sec</strong></span>
+      <span style="user-select: auto;
+      font-size: 18px;
+      font-weight: 400;
+      position: relative;
+      padding-left: 20px;
+      margin-left: 10px;
+      top: -4px;">Space limit: <strong id="problem-code" style="user-select: auto;">{{spacelimit}} MB</strong></span>
+      <!-- <i class="icon-add-todo right" style="user-select: auto;">
+        
+        <div class="todo-widget" style="visibility: visible; position: relative; top: 5px; user-select: auto;"><input style="outline: none; user-select: auto;" type="image" src="/sites/all/themes/abessive/images/add1.png" title="Add problem to Todo list" class="todo-button" width="25" height="25" problem="PRGCUP01" contest=""><div class="todo-button-message" style="user-select: auto;"></div></div>
+        
+      </i> -->
+      
+      <a class="button blue right" href="/submit/PRGCUP01" data-bindattr-275="275" style="user-select: auto; border-radius: 2px;
+      padding: .6rem 1.5rem .625rem;
+      font-size: .75rem;
+      margin-bottom: 0;
+      transition: all .2s ease-in;
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 50%);
+      text-decoration: none!important;
+      color: #fff;
+    background: #4a90e2;
+    float: right!important;
+    margin: 12px 0 12px 12px;
+    padding: .4rem 1.5rem .20rem!important;">Submit</a>
+      
+    </h1>
+   
+      
+      <div class="row">
+        <div class="col-md-8 ">
+            {{data|safe }}
+        </div>
+        <div class="col-md-4">
+          <a class="button grey full-width-1" href="/status/PRGCUP01" data-bindattr-286="286" style="user-select: auto;
+          margin: 14px 14px 15px 2px;
+          font-size: 13px;
+          background: #eee;
+          color: #fff;
+          background: #4a90e2!important;
+          border-radius: 2px;
+    padding: .6rem 1.5rem .625rem;
+    font-size: .75rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 50%);
+    text-decoration: none!important;
+    width: 99%!important;
+    display: inline-block;
+    text-align: center;">All Submissions</a>
+        </div>
+      </div>
+    
+   </div>
+ 
 
     <form enctype="multipart/form-data" onsubmit="return false" id="submit_ques">
       <label for="file">submit</label>
@@ -48,4 +100,5 @@
       <span id="file_ok" style="display:none"></span>
       <input id="submit" type="submit" value="Upload">
     </form>
+    
 {% endblock %}

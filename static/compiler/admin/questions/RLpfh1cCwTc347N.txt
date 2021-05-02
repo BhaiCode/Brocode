@@ -1,0 +1,68 @@
+<h3><strong>Problem</strong></h3>
+
+<p>You are entering a raffle for a lifetime supply of pancakes.&nbsp;NN&nbsp;tickets have already been sold. Each ticket contains a single integer between&nbsp;11&nbsp;and&nbsp;KK, inclusive. Different tickets are allowed to contain the same integer. You know exactly which numbers are on all of the tickets already sold and would like to maximize your odds of winning by purchasing two tickets (possibly with the same integer on them). You are allowed to choose which integers between&nbsp;11&nbsp;and&nbsp;KK, inclusive, are on the two tickets.</p>
+
+<p><img alt="Two piles of tickets. The left has numbers 1, 3, and 7. The right has numbers 4 and 8." src="https://codejam.googleapis.com/dashboard/get_file/AQj_6U3vxbXfEdM3tAiEmLZ4nUd9_d-UZGjJGOfu40NDJZrSIgEEZo7oHAeaNWY1_dMjyJqW6Ezz/closest_pick.png" /></p>
+
+<p>You know you are the last customer, so after you purchase your tickets, no more tickets will be purchased. Then, an integer&nbsp;cc&nbsp;between&nbsp;11&nbsp;and&nbsp;KK, inclusive, is chosen uniformly at random. If one of your tickets is strictly closer to&nbsp;cc&nbsp;than all other tickets or if both of your tickets are the same distance to&nbsp;cc&nbsp;and strictly closer than all other tickets, then you win the raffle. Otherwise, you do not win the raffle.</p>
+
+<p>Given the integers on the&nbsp;NN&nbsp;tickets purchased so far, what is the maximum probability of winning the raffle you can achieve by choosing the integers on your two tickets optimally?</p>
+
+<h3><strong>Input</strong></h3>
+
+<p>The first line of the input gives the number of test cases,&nbsp;TT.&nbsp;TT&nbsp;test cases follow. Each test case consists of two lines. The first line of a test case contains two integers&nbsp;NN&nbsp;and&nbsp;KK: the number of tickets already sold and the limit of the range of integers to pick from, respectively. The second line contains&nbsp;NN&nbsp;integers&nbsp;P1,P2,&hellip;,PNP1,P2,&hellip;,PN, representing the integers on the tickets that have already been purchased.</p>
+
+<h3><strong>Output</strong></h3>
+
+<p>For each test case, output one line containing&nbsp;<code>Case #xx:&nbsp;yy</code>, where&nbsp;<code>xx</code>&nbsp;is the test case number (starting from 1) and&nbsp;<code>yy</code>&nbsp;is the maximum win probability you can achieve if you choose your tickets optimally.</p>
+
+<p><code>yy</code>&nbsp;will be considered correct if it is within an absolute or relative error of&nbsp;10&minus;610&minus;6&nbsp;of the correct answer. See the&nbsp;<a href="https://codingcompetitions.withgoogle.com/codejam/faq#competing">FAQ</a>&nbsp;for an explanation of what that means, and what formats of real numbers we accept.</p>
+
+<h3><strong>Limits</strong></h3>
+
+<p>Time limit: 10 seconds.<br />
+Memory limit: 1 GB.<br />
+1&le;T&le;1001&le;T&le;100.<br />
+1&le;N&le;301&le;N&le;30.<br />
+1&le;Pi&le;K1&le;Pi&le;K, for all&nbsp;ii.</p>
+
+<p>Test Set 1 (Visible Verdict)</p>
+
+<p>1&le;K&le;301&le;K&le;30.</p>
+
+<p>Test Set 2 (Visible Verdict)</p>
+
+<p>1&le;K&le;1091&le;K&le;109.</p>
+
+<h3><strong>Sample</strong></h3>
+
+<p><strong>Sample Input</strong></p>
+
+<pre>
+4
+3 10
+1 3 7
+4 10
+4 1 7 3
+4 3
+1 2 3 2
+4 4
+1 2 4 2
+</pre>
+
+<p><strong>Sample Output</strong></p>
+
+<pre>
+Case #1: 0.5
+Case #2: 0.4
+Case #3: 0.0
+Case #4: 0.25
+</pre>
+
+<p>In Sample Case #1, you can purchase tickets with the integers&nbsp;44&nbsp;and&nbsp;88&nbsp;on them and then win if&nbsp;4,5,8,94,5,8,9, or&nbsp;1010&nbsp;are chosen giving you&nbsp;5/10=0.55/10=0.5&nbsp;probability of winning. Purchasing tickets with the integers&nbsp;66&nbsp;and&nbsp;88&nbsp;on them also yields a&nbsp;0.50.5&nbsp;probability of winning, but no combination yields more.</p>
+
+<p>In Sample Case #2,&nbsp;66&nbsp;and&nbsp;88&nbsp;is a possible optimal pair of tickets, which wins when&nbsp;cc&nbsp;is one of&nbsp;6,8,96,8,9, or&nbsp;1010. Note that the integers on the tickets are not necessarily given in sorted order.</p>
+
+<p>In Sample Case #3, every possible&nbsp;cc&nbsp;is at distance&nbsp;00&nbsp;from an already purchased ticket, so you cannot win regardless of your choices.</p>
+
+<p>In Sample Case #4, if you pick&nbsp;33&nbsp;for at least one of your tickets, you win on&nbsp;c=3c=3, for&nbsp;1/4=0.251/4=0.25&nbsp;win probability. There is no way to win when&nbsp;cc&nbsp;is any other integer, so that is the best you can do.</p>

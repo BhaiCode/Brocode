@@ -1,0 +1,56 @@
+<p>You have&nbsp;rr&nbsp;red and&nbsp;bb&nbsp;blue beans. You&#39;d like to distribute them among several (maybe, one) packets in such a way that each packet:</p>
+
+<ul>
+	<li>has at least one red bean (or the number of red beans&nbsp;ri&ge;1ri&ge;1);</li>
+	<li>has at least one blue bean (or the number of blue beans&nbsp;bi&ge;1bi&ge;1);</li>
+	<li>the number of red and blue beans should differ in no more than&nbsp;dd&nbsp;(or&nbsp;|ri&minus;bi|&le;d|ri&minus;bi|&le;d)</li>
+</ul>
+
+<p>Can you distribute all beans?</p>
+
+<p><strong>Input</strong></p>
+
+<p>The first line contains the single integer&nbsp;tt&nbsp;(1&le;t&le;10001&le;t&le;1000)&nbsp;&mdash; the number of test cases.</p>
+
+<p>The first and only line of each test case contains three integers&nbsp;rr,&nbsp;bb, and&nbsp;dd&nbsp;(1&le;r,b&le;1091&le;r,b&le;109;&nbsp;0&le;d&le;1090&le;d&le;109)&nbsp;&mdash; the number of red and blue beans and the maximum absolute difference in each packet.</p>
+
+<p><strong>Output</strong></p>
+
+<p>For each test case, if you can distribute all beans, print&nbsp;YES. Otherwise, print&nbsp;NO.</p>
+
+<p>You may print every letter in any case you want (so, for example, the strings&nbsp;yEs,&nbsp;yes,&nbsp;Yes&nbsp;and&nbsp;YES&nbsp;are all recognized as positive answer).</p>
+
+<p><strong>Example</strong></p>
+
+<p><strong>input</strong></p>
+
+<pre>
+4
+1 1 0
+2 7 3
+6 1 4
+5 4 0
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>output</strong></p>
+
+<pre>
+YES
+YES
+NO
+NO
+</pre>
+
+<p><strong>Note</strong></p>
+
+<p>In the first test case, you can form one packet with&nbsp;11&nbsp;red and&nbsp;11&nbsp;blue bean. The absolute difference&nbsp;|1&minus;1|=0&le;d|1&minus;1|=0&le;d.</p>
+
+<p>In the second test case, you can form two packets:&nbsp;11&nbsp;red and&nbsp;44&nbsp;blue beans in the first packet and&nbsp;11&nbsp;red and&nbsp;33&nbsp;blue beans in the second one.</p>
+
+<p>In the third test case, since&nbsp;b=1b=1, you can form only one packet with&nbsp;66&nbsp;red and&nbsp;11&nbsp;blue beans. The absolute difference&nbsp;|6&minus;1|=5&gt;d|6&minus;1|=5&gt;d.</p>
+
+<p>In the fourth test case, since&nbsp;d=0d=0&nbsp;so each packet should contain the same number of red and blue beans, but&nbsp;r&ne;br&ne;b.</p>
+
+<p>&nbsp;</p>

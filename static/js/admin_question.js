@@ -1,8 +1,11 @@
 $(document).ready(function () {
     $("#submit").click(function () {
-        $('#form1').submit(function () {
-            var form = $('#form1')[0];
+        $('#form').submit(function () {
+            var form = $('#form')[0];
+            // console.log(document.getElementById("name"))
             var data = new FormData(form);
+            // console.log(data['name'])
+            // console.log(document.getElementById("testcases"))
             $.ajax({
                 url: '/api_question',
                 type: 'POST',
@@ -29,57 +32,57 @@ $(document).ready(function () {
 
         });
     });
-    $('#file1').on('change', function () {
-        var fileInput = $('#file1').val();
+    $('#solution').on('change', function () {
+        var fileInput = $('#solution').val();
         // var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
-        var allowedExtensions = /(\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
-        if (!allowedExtensions.exec(fileInput)) {
-            $('#file1_ok').text("Wrong Extension");
-            $('#file1_ok').show();
-            $('#file1').val("");
-        }
-        else {
-            $('#file1_ok').hide();
-        }
-    });
-    
-    $('#file2').on('change', function () {
-        var fileInput = $('#file2').val(); 
-        var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
-        if (!allowedExtensions.exec(fileInput)) {
-            $('#file2_ok').text("Wrong Extension");
-            $('#file2_ok').show();
-            $('#file2').val("");
-        }
-        else {
-            $('#file2_ok').hide();
-        }
-    });
-    
-    $('#file3').on('change', function () {
-        var fileInput = $('#file3').val(); 
         var allowedExtensions = /(\.py)$/i;
         if (!allowedExtensions.exec(fileInput)) {
-            $('#file3_ok').text("Wrong Extension");
-            $('#file3_ok').show();
-            $('#file3').val("");
+            $('#sol_ok').text("Wrong Extension");
+            $('#sol_ok').show();
+            $('#solution').val("");
         }
         else {
-            $('#file3_ok').hide();
+            $('#sol_ok').hide();
         }
     });
-    $('#file4').on('change', function () {
-        var fileInput = $('#file4').val(); 
+    
+    $('#testcases').on('change', function () {
+        var fileInput = $('#testcases').val(); 
         var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
         if (!allowedExtensions.exec(fileInput)) {
-            $('#file4_ok').text("Wrong Extension");
-            $('#file4_ok').show();
-            $('#file4').val("");
+            $('#test_ok').text("Wrong Extension");
+            $('#test_ok').show();
+            $('#testcases').val("");
         }
         else {
-            $('#file4_ok').hide();
+            $('#test_ok').hide();
         }
     });
+    
+    $('#opcases').on('change', function () {
+        var fileInput = $('#opcases').val(); 
+        var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+        if (!allowedExtensions.exec(fileInput)) {
+            $('#op_ok').text("Wrong Extension");
+            $('#op_ok').show();
+            $('#opcases').val("");
+        }
+        else {
+            $('#op_ok').hide();
+        }
+    });
+    // $('#file4').on('change', function () {
+    //     var fileInput = $('#file4').val(); 
+    //     var allowedExtensions = /(\.doc|\.docx|\.odt|\.pdf|\.tex|\.txt|\.rtf|\.wps|\.wks|\.wpd)$/i;
+    //     if (!allowedExtensions.exec(fileInput)) {
+    //         $('#file4_ok').text("Wrong Extension");
+    //         $('#file4_ok').show();
+    //         $('#file4').val("");
+    //     }
+    //     else {
+    //         $('#file4_ok').hide();
+    //     }
+    // });
     
     $("#name").on('input', function () {
         var name_send = $("#name").val();
@@ -103,5 +106,80 @@ $(document).ready(function () {
             }
         });
     });
+    // $("#add").on('click',function(){
+    //     console.log("HHHHHHH")
+    //     const mylist = document.getElementsByClassName('content')[0];
+    //     let newdiv = document.createElement("div")
+    //     let newlist = document.createElement("textarea");
+    //     var b = document.createElement("button");
+    //     b.type = "button"
+    //     b.innerHTML="Delete"
+    //     b.setAttribute('class' , "btn btn-danger")
+    //     b.addEventListener('click',function(){
+
+    //     })
+    //     // b.width = 100%
+    //     newlist.placeholder="write here";
+    //     newdiv.appendChild(newlist);
+    //     newdiv.appendChild(b);
+    //     mylist.appendChild(newdiv);
+        
+    // })
+    // console.log("jhjnjo")
+    // $("#submit2").on('click',function(){
+    //     var x = document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders');
+    //     console.log("bbjhbjj",x)
+    // })
+    // let output = document.getElementById('output');
+    // let buttons = document.getElementsByClassName('tool--btn');
+    // for (let btn of buttons) {
+    //     btn.addEventListener('click', () => {
+    //         let cmd = btn.dataset['command'];
+    //         if(cmd == 'createlink') {
+    //             const output = document.getElementById('output');
+    //             let url = prompt("Enter the link here: ", "http:\/\/");
+    //             console.log(url)
+    //             if(url != "http:\/\/"){
+    //                 // let newlink = document.createElement('a')
+    //                 // newlink.setAttribute('href',url)
+    //                 // output.appendChild(newlink)
+    //                 document.execCommand(cmd,false,url)
+    //             }
+    //         }
+    //         else if(cmd == "insertImage"){
+    //             let url = prompt("Enter the image link here: ", "");
+    //             if(url!=""){
+    //                 const mylist = document.getElementById('output');
+    //                 let newimg = document.createElement("img")
+    //                 newimg.setAttribute('src',url)
+    //                 newimg.setAttribute("style","height:400px")
+    //                 let brk = document.createElement('br');
+    //                 mylist.appendChild(brk)
+    //                 mylist.appendChild(newimg)
+    //             } 
+    //         }
+    //         else{
+    //             var x = document.getElementById('output')
+    //             // alert(selectedText);
+    //             var tag;
+    //             if(cmd == 'bold') tag='b';
+    //             var selectedText = window.getSelection();
+    //             console.log(selectedText.text)
+    //             if (selectedText != "") {
+    //                 var newText = "<" + tag + ">" + selectedText + "</" + tag + ">";
+    //                 window.getSelection = newText;
+    //             }
+    //         }
+    //     })
+    // }
+    // function formatText(tag) {
+    //     console.log("oaooadon")
+    //     var selectedText = document.selection.createRange().text;
+
+    //     if (selectedText != "") {
+    //         var newText = "<" + tag + ">" + selectedText + "</" + tag + ">";
+    //         document.selection.createRange().text = newText;
+    //     }
+    // }
 });
 

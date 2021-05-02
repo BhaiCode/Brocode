@@ -1,31 +1,146 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Upload Question</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  
-    <script src = "static\js\admin_question.js"></script>
+    <title>Upload Question</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="static\js\admin_question.js"></script>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="static/css/admin_question.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    <!-- <script src="static/css/admin_question.css"></script> -->
 </head>
+
+<!-- <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+<script src="//cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
 <body>
-    <form enctype="multipart/form-data" onsubmit="return false" id="form1">
-        <label for="file1">question_file</label>
-        <input id="file1" type="file" name="file1">
-        <span id="file1_ok" style="display:none"></span>
-        <label for="file1">question_testcase</label>
-        <input id="file2" type="file" name="file2" placeholder="question_testcase">
-        <span id="file2_ok" style="display:none"></span>
-        <label for="file1">question_solution</label>
-        <input id="file3" type="file" name="file3" placeholder="question_solution">
-        <span id="file3_ok" style="display:none"></span>
-        <label for="file1">question_output</label>
-        <input id="file4" type="file" name="file4" placeholder="question_output">
-        <span id="file4_ok" style="display:none"></span>
-        <input id="name" type="name" name="question_name" placeholder="Question Name">
-        <span id="name_ok" style="display:none"></span>
-        <input id="time_limit" type="name" name="time_limit" placeholder="Time limit">
-        <input id="submit" type="submit" value="Upload">
-    </form> 
+    <!-- <div class="toolbar">
+            <ul class="tool-list">
+                <li class="tool">
+                    <button 
+                    class="tool--btn"
+                    data-command="justifyLeft">
+                        <i class="fa fa-align-left"></i>
+                    </button>
+                </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command='justifyCenter' 
+                    class="tool--btn">
+                    <i class=' fa fa-align-center'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="bold" 
+                    class="tool--btn">
+                    <i class=' fa fa-bold'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="italic"
+                    class="tool--btn">
+                    <i class=' fa fa-italic'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="underline"
+                    class="tool--btn">
+                    <i class=' fa fa-underline'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="insertOrderedList"
+                    class="tool--btn">
+                    <i class=' fa fa-list-ol'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="insertUnorderedList"
+                    class="tool--btn">
+                    <i class='fa fa-list-ul'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="createlink" 
+                    class="tool--btn">
+                    <i class='fa fa-link'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button 
+                    type="button" 
+                    data-command="insertImage" 
+                    class="tool--btn">
+                    <i class='fa fa-image'></i>
+                </button>
+            </li>
+            </ul> -->
+    <!-- </div> -->
+    <!-- <div id="output"> -->
+    <form  enctype='multipart/form-data' onsubmit="return false" id="form">
+        <!-- name -->
+        <input id="name" type="name" name="name" placeholder="Question Name">
+        <span id="name_ok"></span>
+        
+        <!-- time and space -->
+         <input id="timelimit" name="timelimit" placeholder="Time Limit">
+        <input id="spacelimit" name="spacelimit" placeholder="spacelimit">
+        
+        <!-- solution -->
+        <label for="solution">solution</label>
+        <input type="file" name="solution" id="solution">
+        <span id="sol_ok"></span>
+        
+        <!-- testcase -->
+        <br>
+        <label for="solution">add testcases</label>
+        <input type="file" id="testcases" name="testfiles" multiple/>
+        <span id="test_ok"></span>
+
+        <!-- output -->
+        <br>
+        <label for="solution">add output</label>
+        <input type="file" id="opcases" name="opfiles" multiple/>
+        <span id="op_ok"></span>
+
+        <!-- statement -->
+        <textarea name="content" id="content"></textarea>
+        <input type="submit" id="submit" value="submit"></button>
+    </form>
     
-</body> 
+    <!-- </div> -->
+    <!-- <div id="output" contenteditable="true"></div> -->
+    <!-- <div class='container'>
+        <div class='content' id='content'>
+        </div>
+        <button type="button" class="btn btn-primary" id='add'>ADD</button>
+        <button type="button" class="btn btn-danger">Danger</button>
+    </div> -->
+</body>
+<script>
+    CKEDITOR.replace('content')
+</script>
 </html>
