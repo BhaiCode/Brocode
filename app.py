@@ -1,7 +1,4 @@
 from flask import Flask,render_template,redirect,request,session,flash,json,url_for,g,make_response,Response
-from pydrive.drive import GoogleDrive
-from pydrive.auth import GoogleAuth
-from werkzeug.datastructures import FileStorage
 import db as api
 import credential
 from werkzeug.utils import secure_filename
@@ -15,9 +12,7 @@ app = Flask(__name__)
 
 
 app.secret_key=os.urandom(24)
-# gauth = GoogleAuth()
-# gauth.LocalWebserverAuth()       
-# drive = GoogleDrive(gauth)
+
 
 @app.route('/')
 def home():
