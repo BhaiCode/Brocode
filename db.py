@@ -163,7 +163,7 @@ def get_quest(ques_id):
     except Exception as e:
         print(e)             
 
-def submit(ques_id,sub_id,username,result,execut_time,sub_loc,out_loc):
+def submit(ques_id,sub_id,username,result,execut_time,sub_loc,out_loc,state,memory):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -173,9 +173,9 @@ def submit(ques_id,sub_id,username,result,execut_time,sub_loc,out_loc):
     )
     try:
         with conn.cursor() as curr:
-            sql = "insert into sub_master (ques_id,sub_id,username,result,execut_time,sub_loc,out_loc) values (%s,%s,%s,%s,%s,%s,%s)"
+            sql = "insert into sub_master (ques_id,sub_id,username,result,execut_time,sub_loc,out_loc,state,memory_used) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
             execut_time = int(execut_time)
-            curr.execute(sql,(ques_id,sub_id,username,result,execut_time,sub_loc,out_loc))
+            curr.execute(sql,(ques_id,sub_id,username,result,execut_time,sub_loc,out_loc,state,memory))
             conn.commit()
     except Exception as e:
         print(e)            
@@ -191,10 +191,10 @@ def get_check_need(ques_id):
     )   
     try:
         with conn.cursor() as curr:
-            sql = "select ques_test_case_file,ques_output from ques_master where ques_id=(%s)"
+            sql = "select ques_test_case_file,ques_output,time_limit,space_limit from ques_master where ques_id=(%s)"
             curr.execute(sql,(ques_id))
             output = curr.fetchall()
-            return output[0][0],output[0][1]
+            return output[0][0],output[0][1],output[0][2],output[0][3]
     except Exception as e:
         print(e)  
 
@@ -208,14 +208,14 @@ def get_sub_det(sub_id):
     )   
     try:
         with conn.cursor() as curr:
-            sql = "select sub_loc from sub_master where sub_id=(%s)"
+            sql = "select ques_id,sub_loc from sub_master where sub_id=(%s)"
             curr.execute(sql,(sub_id))
             output = curr.fetchone()
-            return output[0]
+            return output[0],output[1]
     except Exception as e:
         print(e)  
 
-def sub_update(sub_id,out_loc,result):
+def sub_update(sub_id,result,execut_time,memory_used):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -225,8 +225,8 @@ def sub_update(sub_id,out_loc,result):
     )   
     try:
         with conn.cursor() as curr:
-            sql = "update sub_master set out_loc=(%s),result=(%s) where sub_id=(%s)"
-            curr.execute(sql,(out_loc,result,sub_id))
+            sql = "update sub_master set result=(%s),execut_time=(%s),memory_used=(%s) where sub_id=(%s)"
+            curr.execute(sql,(result,execut_time,memory_used,sub_id))
             conn.commit()
     except Exception as e:
         print(e)
@@ -303,3 +303,36 @@ def delete_question(key):
     except Exception as e:
         print(e)    
         return 0  
+
+def sub_test_update(sub_id,out_loc,time_taken,memory_used,result):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    )   
+    try:
+        with conn.cursor() as curr:
+            sql = "update sub_result set test_case=(%s),time_taken=(%s),memory_used=(%s),state=(%s) where sub_id=(%s)"
+            curr.execute(sql,(out_loc,time_taken,memory_used,result,sub_id))
+            conn.commit()
+    except Exception as e:
+        print(e)       
+
+def get_result(name):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    ) 
+    try:
+        with conn.cursor() as curr:
+            sql = 'select result,execut_time,sub_id from sub_master where username = (%s)'
+            curr.execute(sql,name)
+            output = curr.fetchall()
+            return output   
+    except Exception as e:
+        print(e)      

@@ -19,10 +19,18 @@ $("#submit").click(function () {
             success: function (data) {
                 var obj = JSON.parse(data)
                 if(obj.status == '0'){
-                    alert('Correct Answer');
+                    // alert('Correct Answer');
+                    $('#state').text("queue");
+                    $('#state').show()
+                }
+                else if(obj.status == '2'){
+                    // alert('Correct Answer');
+                    $('#state').text("your not logged in");
+                    $('#state').show()
                 }
                 else{
-                    alert('Wrong Answer');
+                    $('#state').text("server error");
+                    $('#state').show()
                 }
             },
             error: function (jqXhr, textStatus, errorMessage) { // if any error come then 

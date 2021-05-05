@@ -4,17 +4,23 @@ import credential
 import contextlib
 import filecmp 
 import db as api
+import glob,time
+
 # for only now i take submission id as a location after complition it must be taken from database
 # question id as solution id
 # alter queston table
-def get_file(name):
-    path = credential.out_path
-    name = name + '.txt'
-    with open(os.path.join(path,name),'w') as fp:
-        pass
-    path = str(path)+'/'+str(name)
-    # print(os.path.relpath(path))
-    return (os.path.relpath(path))
+to_check = []
+def get_file(name,path):
+    try:
+        name = name + '.txt'
+        with open(os.path.join(path,name),'w') as fp:
+            pass
+        path = str(path)+'/'+str(name)
+        # print(os.path.relpath(path))
+        return (os.path.relpath(path))
+    except Exception as e:
+        print(e)
+        return -1
 
 def get_command(compiler,file1,opfile):
     st = []
@@ -48,29 +54,127 @@ def del_file(loc):
         print(error)
         return 0    
 
-def check(ques_id,submission_id):
-    test_case,act_out = api.get_check_need(ques_id)
-    sub_file = api.get_sub_det(submission_id)
-    if sub_file.endswith('.py'):
-        # sub_name = get_name(submission_id)
-        name = str(submission_id)
-        # +str('yes') #yes used for name of question
-        out = get_file(name)
-        st = []
-        st = get_command('python3',sub_file,out)
-        with open(out,'w+') as f:
-            with open(test_case,'r') as r:
-                s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
-        tag = 's'
-        if result(str(out),str(act_out),tag):
-            api.sub_update(submission_id,out,"1")
-            return True
-        else:
-            api.sub_update(submission_id,out,"0")
-            return False 
-    else: print("hahah")        
+# def check(ques_id,submission_id):
+#     # test_case,act_out = api.get_check_need(ques_id)
+#     # sub_file = api.get_sub_det(submission_id)
+#     sub_file = "kjnbojhno.py"
+#     if sub_file.endswith('.py'):
+#         # sub_name = get_name(submission_id)
+#         # name = str(submission_id)
+#         # +str('yes') #yes used for name of question
+#         # out = get_file(name)
+#         out = "static/compiler/user/output/582096018400882.txt"
+#         st = []
+#         st = get_command('python3',"static/compiler/admin/solution/6p1uW0x8v4FB1t8.py",out)
+        
+#         test_case="static/compiler/admin/test_cases/6p1uW0x8v4FB1t8/input/test_case_1"
+#         s=""
+#         with open(out,'w+') as f:
+#             with open(test_case,'r') as r:
+#                 stattime = time.time()
+#                 s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
+#                 print(time.time()-stattime)
+#                 print(s)
+#         print(s)
+#         tag = 's'
+#         # if result(str(out),str(act_out),tag):
+#         #     api.sub_update(submission_id,out,"1")
+#         #     return True
+#         # else:
+#         #     api.sub_update(submission_id,out,"0")
+#         #     return False 
+#     else: print("hahah")        
+# check("hnhjn","ojhoiuhouihno")
+def check(sub_id):
+    q_id,sol_path = api.get_sub_det(sub_id)
+    test_inp,test_out,time_limit,space = api.get_check_need(q_id)
+    
+    parent_dir = credential.out_path
+    directory = str(sub_id)
+    path = os.path.join(parent_dir,directory)
+    os.mkdir(path)
+    out_path = path
+
+    # test_inp = test_inp 
+    # test_out = test_out 
+    test_in_files = os.listdir(test_inp)
+    test_out_files = os.listdir(test_out)
+    # sort(test_in_files)
+    test_in_files.sort()
+    test_out_files.sort()
+    # sort(test_out_files)
+    print("kjbkjbkjjnl")
+    print(test_in_files)
+    print(sol_path)
+    if sol_path.endswith('.py'):
+        j=1
+        print("inside bro")
+        max_time=0
+        b=True
+        for i in range(len(test_in_files)):
+            # sub_name = get_name(submission_id)
+            print(test_in_files[i])
+            name = "output_"+str(j)
+            j+=1
+            # +str('yes') #yes used for name of question
+            out = get_file(name,out_path)
+            if out==-1:
+                break
+            st = []
+            print(out)
+            st = get_command('python3',sol_path,out)
+            s = ""
+            print(st)
+            start_time = 0
+            end_time = 0
+            test_path = test_inp +"/"+ test_in_files[i]
+            out_test_path = test_out +"/"+ test_out_files[i]
+            print(test_path)
+            print(out_test_path)
+            with open(out,'w+') as f:
+                with open(test_path,'r') as r:
+                    print("hbhkbk")
+                    print(time.time())
+                    start_time = time.time()
+                    print(start_time)
+                    print("hbhkbk")
+                    s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
+                    print("endoonnnno")
+                    end_time=time.time()
+            time_taken=end_time-start_time
+            print(time_taken)
+            if(s.returncode==1):
+                api.sub_test_update(sub_id,out,"0","","error")
+                b=False
+                api.sub_update(sub_id,"error","0","0")
+                return
+
+            if(end_time-start_time>=time_limit):
+                api.sub_test_update(sub_id,out,time_limit,"","timelimit exceed")
+                b=False
+                api.sub_update(sub_id,"timelimit exceed","0","0")
+                return
+            tag = 's'
+            max_time = max(time_taken,max_time)
+            if result(str(out),str(out_test_path),tag):
+                api.sub_test_update(sub_id,out,"correct",time_taken,"0")
+            else:
+                api.sub_test_update(sub_id,out,time_taken,"","wrong")
+                b=False
+                api.sub_update(sub_id,"wrong",time_taken,"0")
+                return
+        if b:
+            api.sub_update(sub_id,"correct",max_time,"0")      
+            return
+    
 
 
+def queue_len():    
+    return len(to_check)
+def run():    
+    while(len(to_check)!=0):
+        id = to_check.pop(0)
+        check(id)
 
 # print(os.path.abspath('static/submission/test.py'))
 # get_file('staticsubmissiontestyes')
