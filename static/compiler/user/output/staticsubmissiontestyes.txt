@@ -1,7 +1,0 @@
-Hello Brother 4
-Hello Brother 5
-Hello Brother 6
-Traceback (most recent call last):
-  File "static/submission/test.py", line 5, in <module>
-    n = int(input())
-EOFError: EOF when reading a line

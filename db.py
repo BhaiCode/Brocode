@@ -215,7 +215,7 @@ def get_sub_det(sub_id):
     except Exception as e:
         print(e)  
 
-def sub_update(sub_id,result,execut_time,memory_used):
+def sub_update(sub_id,result,execut_time,memory_used,state):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -225,8 +225,9 @@ def sub_update(sub_id,result,execut_time,memory_used):
     )   
     try:
         with conn.cursor() as curr:
-            sql = "update sub_master set result=(%s),execut_time=(%s),memory_used=(%s) where sub_id=(%s)"
-            curr.execute(sql,(result,execut_time,memory_used,sub_id))
+            sql = "update sub_master set result=(%s),execut_time=(%s),memory_used=(%s),state=(%s) where sub_id=(%s)"
+            print(execut_time,memory_used,state)
+            curr.execute(sql,(result,execut_time,memory_used,state,sub_id))
             conn.commit()
     except Exception as e:
         print(e)
@@ -304,7 +305,7 @@ def delete_question(key):
         print(e)    
         return 0  
 
-def sub_test_update(sub_id,out_loc,time_taken,memory_used,result):
+def sub_test_update(sub_id,out_loc,time_taken,memory_used,state):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -314,13 +315,13 @@ def sub_test_update(sub_id,out_loc,time_taken,memory_used,result):
     )   
     try:
         with conn.cursor() as curr:
-            sql = "update sub_result set test_case=(%s),time_taken=(%s),memory_used=(%s),state=(%s) where sub_id=(%s)"
-            curr.execute(sql,(out_loc,time_taken,memory_used,result,sub_id))
+            sql = "insert into sub_result (sub_id,test_case,time_taken,memory_used,state) values (%s,%s,%s,%s,%s)"
+            curr.execute(sql,(sub_id,out_loc,time_taken,memory_used,state))
             conn.commit()
     except Exception as e:
         print(e)       
 
-def get_result(name):
+def get_result(name,ques_id):
     conn=pymysql.connect(
         host=credential.host,
         port=credential.port,
@@ -330,9 +331,47 @@ def get_result(name):
     ) 
     try:
         with conn.cursor() as curr:
-            sql = 'select result,execut_time,sub_id from sub_master where username = (%s)'
-            curr.execute(sql,name)
+            sql = 'select result,execut_time,sub_id,state from sub_master where username = (%s) and ques_id=(%s)'
+            curr.execute(sql,(name,ques_id))
             output = curr.fetchall()
+            # print(output)
             return output   
     except Exception as e:
         print(e)      
+# get_result("sid","RLpfh1cCwTc347N")
+def state_update(sub_id,state):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    )  
+    try:
+        with conn.cursor() as curr:
+            sql = "update sub_master set state=(%s) where sub_id=(%s)"
+            # print(sub_id,state)
+            curr.execute(sql,(state,sub_id))
+            conn.commit()
+    except Exception as e:
+        print(e)        
+
+def get_state(sub_id):
+    conn=pymysql.connect(
+        host=credential.host,
+        port=credential.port,
+        user=credential.user,
+        password=credential.password,
+        db=credential.databasename
+    )  
+    try:
+        with conn.cursor() as curr:
+            sql = "select state from sub_master where sub_id=(%s)"
+            # print(sub_id,state)
+            curr.execute(sql,(sub_id))
+            output = curr.fetchone()
+            return (output[0])
+    except Exception as e:
+        print(e)        
+# state_update("988790171572078","inprogress")       
+ 

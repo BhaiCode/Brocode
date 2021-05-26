@@ -103,17 +103,13 @@ def check(sub_id):
     test_in_files.sort()
     test_out_files.sort()
     # sort(test_out_files)
-    print("kjbkjbkjjnl")
-    print(test_in_files)
-    print(sol_path)
     if sol_path.endswith('.py'):
         j=1
-        print("inside bro")
         max_time=0
         b=True
         for i in range(len(test_in_files)):
             # sub_name = get_name(submission_id)
-            print(test_in_files[i])
+            api.state_update(q_id,"running on"+str(i+1))
             name = "output_"+str(j)
             j+=1
             # +str('yes') #yes used for name of question
@@ -121,53 +117,42 @@ def check(sub_id):
             if out==-1:
                 break
             st = []
-            print(out)
             st = get_command('python3',sol_path,out)
             s = ""
-            print(st)
             start_time = 0
             end_time = 0
             test_path = test_inp +"/"+ test_in_files[i]
             out_test_path = test_out +"/"+ test_out_files[i]
-            print(test_path)
-            print(out_test_path)
             with open(out,'w+') as f:
                 with open(test_path,'r') as r:
-                    print("hbhkbk")
-                    print(time.time())
                     start_time = time.time()
-                    print(start_time)
-                    print("hbhkbk")
                     s = subprocess.run(st,stdin=r,stdout=f,stderr = f,text=True)
-                    print("endoonnnno")
                     end_time=time.time()
-            time_taken=end_time-start_time
-            print(time_taken)
+            time_taken = end_time-start_time
             if(s.returncode==1):
                 api.sub_test_update(sub_id,out,"0","","error")
                 b=False
-                api.sub_update(sub_id,"error","0","0")
+                api.sub_update(sub_id,"error","0","0","executed")
                 return
 
             if(end_time-start_time>=time_limit):
-                api.sub_test_update(sub_id,out,time_limit,"","timelimit exceed")
+                api.sub_test_update(sub_id,out,time_limit,"","timelimit_exceed")
                 b=False
-                api.sub_update(sub_id,"timelimit exceed","0","0")
+                api.sub_update(sub_id,"timelimit_exceed","0","0","executed")
                 return
             tag = 's'
             max_time = max(time_taken,max_time)
             if result(str(out),str(out_test_path),tag):
-                api.sub_test_update(sub_id,out,"correct",time_taken,"0")
+                api.sub_test_update(sub_id,out,time_taken,"0","correct")
             else:
-                api.sub_test_update(sub_id,out,time_taken,"","wrong")
+                api.sub_test_update(sub_id,out,time_taken,"0","wrong")
                 b=False
-                api.sub_update(sub_id,"wrong",time_taken,"0")
+                api.sub_update(sub_id,"wrong answer on"+str(i+1),time_taken,"0","executed")
                 return
         if b:
-            api.sub_update(sub_id,"correct",max_time,"0")      
+            api.sub_update(sub_id,"correct",max_time,"0","executed")      
             return
     
-
 
 def queue_len():    
     return len(to_check)

@@ -265,8 +265,9 @@ def delete_question():
 def show_question(key):
     q_loc,name,timelimit,space_limit = api.get_quest(key)
     # username=session['username']
+    result = ""
     if "username" in session:
-        result = api.get_result(session["username"])
+        result = api.get_result(session["username"],key)
     file = open(q_loc,'r+')
     data = file.read()
     # print(q_loc,name,timelimit,space_limit)
@@ -293,12 +294,11 @@ def submit():
             username = session['username']
             api.submit(q,sub_id,username,"0","0",l1,"","queue","0")
             if compiler.queue_len() == 0:
-                print("jjnjnlknl")
                 compiler.to_check.append(sub_id)
                 compiler.run()
             else:
                 compiler.to_check.append(sub_id)
-            return json.dumps({'status':'0'})
+            return json.dumps({'status':sub_id})
         else:
             return json.dumps({'status':'2'})        
     except Exception as e:   
@@ -312,6 +312,22 @@ def api_check_username():
     if(api.check_username(data)==True):
         return json.dumps({'status':'0'})
     return json.dumps({'status':'1'})
+
+#  data=request.get_data().decode("utf-8").split("=")[1]
+#     if(api.check_ques_name(data)==True):
+#         return json.dumps({'status':'0'})
+#     return json.dumps({'status':'1'})
+
+@app.route('/get_updates',methods=['POST','GET'])
+def get_updates():
+    try:
+        data = request.get_data().decode("utf-8").split("=")[1]
+        state = api.get_state(data)
+        print(state)
+        return json.dumps({'status':state})
+    except Exception as e:
+        print(e)
+        return json.dumps({'status':'system error'})
 
 if __name__ == '__main__':
     app.run(debug=True)
