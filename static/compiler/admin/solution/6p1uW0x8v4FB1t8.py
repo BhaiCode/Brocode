@@ -1,4 +1,5 @@
 def check(r, b, d):
+    # pnii("jknlns")
     if d==0:
         return "Yes" if r==b else "No"
     else:

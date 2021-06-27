@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 
-app.secret_key=os.urandom(24)
+app.secret_key=credential.secret_key
 
 
 @app.route('/')
@@ -196,12 +196,10 @@ def api_question():
         with open(ques_path,'w') as fl:
             fl.write(form_details['content'])
             fl.close()
-        
 
 
         api.new_question(q_key,ques_path,form_details['name'],test_path,sol_path,out_path,form_details['timelimit'],form_details['spacelimit'])        
 
-        # print(test_case)
         return json.dumps({'status':'0'})
     except Exception as e:
         print(e)
@@ -267,14 +265,17 @@ def delete_question():
 def show_question(key):
     q_loc,name,timelimit,space_limit = api.get_quest(key)
     # username=session['username']
+    result = ""
+    if "username" in session:
+        result = api.get_result(session["username"],key)
     file = open(q_loc,'r+')
     data = file.read()
-    print(q_loc,name,timelimit,space_limit)
+    # print(q_loc,name,timelimit,space_limit)
     # response = make_response( render_template('question.html', loc=loc,name=name,key=key))
     # response.headers['Content-Type']='application/pdf'
     # response.headers['Content-Disposition']='inline;'     
     # return  response  
-    return  render_template('question.html', data=data,name=name,key=key,timelimit=timelimit,spacelimit=space_limit)  
+    return  render_template('question.html', data=data,name=name,key=key,timelimit=timelimit,spacelimit=space_limit,result=result)  
 
 @app.route('/submit',methods=['POST','GET'])
 def submit():
@@ -291,15 +292,15 @@ def submit():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             l1=os.path.join(app.config['UPLOAD_FOLDER'], filename)
             username = session['username']
-            api.submit(q,sub_id,username,"0","0",l1,"")
-            if compiler.check(q,sub_id)==True:
-                print("helllo bro")
-                return json.dumps({'status':'0'})
+            api.submit(q,sub_id,username,"0","0",l1,"","queue","0")
+            if compiler.queue_len() == 0:
+                compiler.to_check.append(sub_id)
+                compiler.run()
             else:
-                print("kya kr rhe bhai")
-                return json.dumps({'status':'1'})
+                compiler.to_check.append(sub_id)
+            return json.dumps({'status':sub_id})
         else:
-            return json.dumps({'status':'1'})        
+            return json.dumps({'status':'2'})        
     except Exception as e:   
         return json.dumps({'status':'1'}) 
 
@@ -311,6 +312,22 @@ def api_check_username():
     if(api.check_username(data)==True):
         return json.dumps({'status':'0'})
     return json.dumps({'status':'1'})
+
+#  data=request.get_data().decode("utf-8").split("=")[1]
+#     if(api.check_ques_name(data)==True):
+#         return json.dumps({'status':'0'})
+#     return json.dumps({'status':'1'})
+
+@app.route('/get_updates',methods=['POST','GET'])
+def get_updates():
+    try:
+        data = request.get_data().decode("utf-8").split("=")[1]
+        state = api.get_state(data)
+        print(state)
+        return json.dumps({'status':state})
+    except Exception as e:
+        print(e)
+        return json.dumps({'status':'system error'})
 
 if __name__ == '__main__':
     app.run(debug=True)
